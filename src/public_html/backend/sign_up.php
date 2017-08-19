@@ -181,8 +181,11 @@ if (isset($_POST['register']))  {
      
        $mail->ClearAddresses();
      
-
-       $register_array = array("status"=> 1, "id"=> $last_id);     
+     
+     
+       $_SESSION['admin_id'] = $last_id;
+     
+       $register_array = array("status"=> 1, "id"=> $last_id, "urlplaceholder"=> $_SESSION['url_placeholder']);     
     
        echo json_encode(array_values($register_array));
      

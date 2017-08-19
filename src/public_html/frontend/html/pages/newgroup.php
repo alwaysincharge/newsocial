@@ -1,3 +1,10 @@
+<?php  include_once('../../../../includes/all_classes_and_functions.php');  ?>
+
+
+<?php $session->if_not_logged_in($_SESSION['url_placeholder'] . 'login'); ?>
+
+
+
 <html lang="en">
     
     
@@ -48,7 +55,7 @@
                 
             <button class="btn new-group-1">   
                 
-            <img src="pencil.svg" width="20" height="20" class="new-group-2"  />
+            <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/pencil.png" width="20" height="20" class="new-group-2"  />
                     
             Create new group</button>
             
@@ -57,7 +64,7 @@
             
             
             
-            <img src="assets/nopic.png" width="35" height="35" class="current-user-img"  />
+            <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/nopic.png" width="35" height="35" class="current-user-img"  />
             
             
             
@@ -94,7 +101,7 @@
                 <div>
                     
                      
-                    <img src="assets/nopic.png" width="70" height="70" class="writer-profile-img"  />
+                    <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/nopic.png" width="70" height="70" class="writer-profile-img"  />
                     
                    
                     
@@ -116,7 +123,7 @@
                         <div style="width: 350px; display: table; margin: 0 auto;">
                             
                             
-                        <p class="nogroups-text">Create a new group.</p>
+                        <p class="newgroups-text">Create a new group</p>
                             
                             
                         <input id="groupname" class="newgroup-field-1" type="text" placeholder="group name">
@@ -135,6 +142,9 @@
                             
                             
                         <p class="nogroups-text-2" id="progressMessage"></p>
+                            
+                        
+                        <p id="grouperror" class="group-error-1"></p>
                             
                             
                         <a>
@@ -221,14 +231,14 @@
                         
                         <div class="col-xs-4">
                             
-                           <img src="assets/chatting.svg" width="40" height="40" style="group-list-profile-img"  />
+                           <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/chatting.svg" width="40" height="40" style="group-list-profile-img"  />
                         
                         </div>
                         
                       
                         <div class="col-xs-4">
                             
-                           <img src="assets/typography.svg" width="40" height="40" style="group-list-profile-img"  />
+                           <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/typography.svg" width="40" height="40" style="group-list-profile-img"  />
                         
                         </div>
                       
@@ -236,7 +246,7 @@
                       
                         <div class="col-xs-4">
                             
-                           <img src="assets/camera.svg" width="40" height="40" style="group-list-profile-img"  />
+                           <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/camera.svg" width="40" height="40" style="group-list-profile-img"  />
                         
                         </div>
                         
@@ -252,14 +262,14 @@
                         
                         <div class="col-xs-4">
                             
-                           <img src="assets/video-camera.svg" width="40" height="40" style="group-list-profile-img"  />
+                           <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/video-camera.svg" width="40" height="40" style="group-list-profile-img"  />
                         
                         </div>
                         
                       
                         <div class="col-xs-4">
                             
-                           <img src="assets/hands.svg" width="40" height="40" style="group-list-profile-img"  />
+                           <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/hands.svg" width="40" height="40" style="group-list-profile-img"  />
                         
                         </div>
                       
@@ -267,7 +277,7 @@
                       
                         <div class="col-xs-4">
                             
-                           <img src="assets/controls.svg" width="40" height="40" style="group-list-profile-img"  />
+                           <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/controls.svg" width="40" height="40" style="group-list-profile-img"  />
                         
                         </div>
                         
@@ -305,17 +315,35 @@
     
  
     
+var url_placeholder = "/newsocial/src/public_html/"; 
+
+
+    
+    
+    
+    
+    
     
 
 
+
+    
+   
+    
+    
+    
+    
+    
+    
+    
 // When user clicks the login button...
-$("#login").on("click", function(){
+$("#groupsubmit").on("click", function(){
       
     
         
-    var groupname = $("#groupname").val();
+     groupname = $("#groupname").val();
     
-    var groupdesc = $("#groupdesc").val();
+     groupdesc = $("#groupdesc").val();
     
     
     
@@ -326,11 +354,11 @@ $("#login").on("click", function(){
         
     } else {
         
-        $("#loginerror").hide(0);    
+        $("#grouperror").hide(0);    
         
-        $("#loginerror").show(300);
+        $("#grouperror").show(300);
         
-        $("#loginerror").html("None of the fields can be left blank.");
+        $("#grouperror").html("None of the fields can be left blank.");
         
     }
     
@@ -342,11 +370,11 @@ $("#login").on("click", function(){
         if ( (groupname.length > 60)  ||  (groupdesc.length > 140) ) {
         
             
-        $("#loginerror").hide(0);    
-             
-        $("#loginerror").show(300);
+        $("#grouperror").hide(0);    
         
-        $("#loginerror").html("Username and password cannot be shorter than 6 or bigger than 12 characters.");
+        $("#grouperror").show(300);
+        
+        $("#grouperror").html("Group name cannot exceed 60 characters. Description cannot exceed 140.");
             
         
         } else {
@@ -365,10 +393,20 @@ $("#login").on("click", function(){
     
     
     
-    if (both_fields_filled && both_length_check) {
+        if (both_fields_filled && both_length_check) {
         
-        var group_text_ready = true;
-       // login_function(username, password1);
+         group_text_ready = true;
+            // login_function(username, password1);
+
+        }
+    
+    
+    
+    
+    if (group_text_ready) {
+        
+                    get_text_img();
+        
         
     }
     
@@ -376,123 +414,30 @@ $("#login").on("click", function(){
     
     
     
+
+    
+    
+    
+
+
+    
     
 });
     
     
     
+     
     
-    
-    
-function login_function(username, password1) {
-   
-    $.ajax({
-        
-       data: {"login": 1, "username": username, "password": password1},
-       dataType: 'text',
-       url: '../../../backend/sign_in.php',
-       type: "POST"
-        
-    }).done(function(data) {
-        
-        
-            if (data == 2) {
-                
-                    $("#loginerror").hide(0);    
-             
-                    $("#loginerror").show(300);
-        
-                    $("#loginerror").html("Wrong credentials. Try again.");
-                
-                
-            } else if (data == 3) {
-                
-                
-                    $("#loginerror").hide(0);    
-             
-                    $("#loginerror").show(300);
-        
-                    $("#loginerror").html("The request has to be of type POST.");
-                
-                
-            } else if (data == 5) {
-                
-                
-                    $("#loginerror").hide(0);    
-             
-                    $("#loginerror").show(300);
-        
-                    $("#loginerror").html("Username and password fields cannot be shorter than 6 or bigger than 16 characters. Email cannot exceed 345 characters.");
-                
-                
-            } else if (data == 4) {
-                
-                
-                    $("#loginerror").hide(0);    
-             
-                    $("#loginerror").show(300);
-        
-                    $("#loginerror").html("Username and password can only be made up of numbers or letters.");
-                
-                
-            }    else  {
-                
-                
-                    var jsonLogin = JSON.parse( data );
-            
-                    var login_status =  jsonLogin[0];
-            
-                    var login_session_id =  jsonLogin[1];
-                
-                    if (login_status == 1) {
-                        
-                          window.location.href = "http://stackoverflow.com";
-                        
-                    } else {
-                        
-                       $("#loginerror").hide(0);    
-             
-                       $("#loginerror").show(300);
-        
-                       $("#loginerror").html("Poor connection. Try gain later.");
-                
-                        
-                    }
-                
-            }
-        
-        
-        
-        
-        
-        
-        
-    }).fail(function(jqXHR, textStatus, errorThrown) {
-        
-                       $("#loginerror").hide(0);    
-             
-                       $("#loginerror").show(300);
-        
-                       $("#loginerror").html("Poor connection. Try gain later.");
-        
-    });
-    
-    
-}
-
-
-
-
 function _(el) {
             
    return document.getElementById(el);
             
 }
+       
     
     
     
-    
-
+  
 $('#groupimg').change(function() { 
 
     uploadFile();
@@ -526,7 +471,7 @@ function uploadFile() {
         
              ajax.addEventListener("abort", abortHandler, false);
         
-             ajax.open("POST", "files.php");
+             ajax.open("POST", url_placeholder + 'backend/newgroupimg.php');
         
              ajax.send(formdata);
         
@@ -548,6 +493,55 @@ function uploadFile() {
         
         
         function completeHandler(event) {
+            
+            
+            
+            var result = event.target.responseText;
+            
+            alert(result);
+            
+            if (result == 1) {
+
+                _('progressMessage').innerHTML = "You have to upload an image.";
+            
+            } else if (result == 2)  {
+                
+                _('progressMessage').innerHTML = "Your image can only be jpg, png, jpeg or gif.";   
+                
+            } else if (result == 3)  {
+                
+                _('progressMessage').innerHTML = "Your file must be an image.";
+                
+            } else {
+                
+                
+                    var jsonGroup = JSON.parse( event.target.responseText );
+            
+                     group_status =  jsonGroup[0];
+                
+                     group_pic_path = jsonGroup[1];
+                
+                     group_pic_name = jsonGroup[2];
+                
+                     group_pic_type = jsonGroup[3];
+                
+                
+                    if (group_status == 1) {
+                        
+                         group_picture_ready = true;
+                             
+                        
+                    } else {
+                        
+                        
+                    _('progressMessage').innerHTML = "There is an unexplaind error. Please try again.";
+                        
+                    }
+                
+                
+                
+            }
+            
             
             
            _('progressMessage').innerHTML = "";
@@ -584,7 +578,60 @@ function uploadFile() {
     
     
     
-
+    
+    
+    
+    
+    
+ function get_text_img() {
+     
+     
+         if (group_text_ready && group_picture_ready) {
+                        
+            send_both_text_and_pic(groupname, groupdesc, group_pic_path, group_pic_name, group_pic_type);
+                      
+        }
+     
+ }   
+    
+      
+    
+    
+    
+    
+    
+    
+    
+function send_both_text_and_pic(groupname, groupdesc, group_pic_path, group_pic_name, group_pic_type)  {
+    
+    
+    $.ajax({
+        
+       data: {"groupname": groupname, "groupdesc": groupdesc, "group_pic_path": group_pic_path, "group_pic_name": group_pic_name, "group_pic_type": group_pic_type},
+       dataType: 'text',
+       url: url_placeholder + 'backend/create_group.php',
+       type: "POST"
+        
+    }).done(function(data) {
+        
+alert(data);
+            
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        
+                       $("#loginerror").hide(0);    
+             
+                       $("#loginerror").show(300);
+        
+                       $("#loginerror").html("Poor connection. Try gain later.");
+        
+    });
+    
+    
+    
+    
+    
+    
+}
 
 
 

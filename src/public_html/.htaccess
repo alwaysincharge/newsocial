@@ -1,0 +1,40 @@
+# Turn rewrite engine on
+
+RewriteEngine on
+
+
+RewriteRule ^nogroups frontend/html/pages/nogroups.php [NC,L]
+
+RewriteRule ^login frontend/html/pages/login.php [NC,L]
+
+RewriteRule ^newgroup frontend/html/pages/newgroup.php [NC,L]
+
+RewriteRule ^logout backend/logout.php [NC,L]
+
+
+
+
+
+RewriteRule ^state/([a-z,A-Z,0-9]+)$ views/index.php?state=$1 [NC,L]
+
+
+RewriteRule ^page/([a-z,A-Z,0-9]+)/([a-z,A-Z,0-9]+)$ views/index.php?state=$1&page=$2 [NC,L]
+
+RewriteRule ^keywords/(.*)$ views/index.php?keywords=$1 [NC,L]
+
+RewriteRule ^forum views/forum.php [NC,L]
+
+RewriteRule ^relay views/search_relay.php [NC,L]
+
+RewriteRule ^write views/write_post.php [NC,L]
+
+RewriteRule ^profile views/editprofile.php [NC,L]
+
+RewriteRule ^post/([0-9]+) views/post.php?forum=$1 [NC,L]
+
+RewriteRule ^user/([a-z,A-Z,0-9]+) views/user.php?person=$1 [NC,L]
+
+RewriteRule ^message/conversation/([0-9]+) views/messages.php?usersid=$1 [NC,L]
+
+RewriteRule ^noconvo views/messages.php?status=empty [NC,L]
+

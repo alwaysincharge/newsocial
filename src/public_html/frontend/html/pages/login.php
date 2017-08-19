@@ -1,3 +1,6 @@
+<?php  include_once('../../../../includes/all_classes_and_functions.php');  ?>
+
+
 <html lang="en">
     
     
@@ -79,8 +82,7 @@
 
 <script type="text/javascript">
     
-    
-
+var url_placeholder = "/newsocial/src/public_html/";
     
     
 // Function to check letters and numbers  
@@ -234,7 +236,7 @@ function login_function(username, password1) {
         
        data: {"login": 1, "username": username, "password": password1},
        dataType: 'text',
-       url: '../../../backend/sign_in.php',
+       url: url_placeholder + 'backend/sign_in.php',
        type: "POST"
         
     }).done(function(data) {
@@ -290,7 +292,7 @@ function login_function(username, password1) {
                 
                     if (login_status == 1) {
                         
-                          window.location.href = "http://stackoverflow.com";
+                          window.location.href = jsonLogin[2] + "nogroups";
                         
                     } else {
                         
@@ -494,7 +496,7 @@ function sign_up_function(username, password1, password2, email) {
         
        data: {"register": 1, "username": username, "password1": password1, "password2": password2, "email": email},
        dataType: 'text',
-       url: '../../../backend/sign_up.php',
+       url: url_placeholder + 'backend/sign_up.php',
        type: "POST"
         
         
@@ -572,8 +574,8 @@ function sign_up_function(username, password1, password2, email) {
                     if (register_status == 1) {
                         
                         
-                        window.location.href = "http://stackoverflow.com";
-    
+                        window.location.href = jsonRegister[2] + "nogroups";
+                        
                         
                     } else {
                         
@@ -602,6 +604,9 @@ function sign_up_function(username, password1, password2, email) {
     
     
 }
+
+    
+
 
 
 </script>

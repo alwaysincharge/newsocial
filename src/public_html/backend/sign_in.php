@@ -95,7 +95,9 @@ if (isset($_POST['login']))  {
                if (password_verify($_POST['password'], $row['password'])) { 
                    
                    
-               $register_array = array("status"=> 1, "id"=> $row['id']);     
+               $_SESSION['admin_id'] = $row['id'];
+                   
+               $register_array = array("status"=> 1, "id"=> $row['id'], "urlplaceholder"=> $_SESSION['url_placeholder']);     
     
                echo json_encode(array_values($register_array));
              

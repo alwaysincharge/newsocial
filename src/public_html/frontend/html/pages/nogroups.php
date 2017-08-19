@@ -1,3 +1,10 @@
+<?php  include_once('../../../../includes/all_classes_and_functions.php');  ?>
+
+
+<?php $session->if_not_logged_in($_SESSION['url_placeholder'] . 'login'); ?>
+
+
+
 <html lang="en">
     
     
@@ -44,11 +51,11 @@
             <div style="float: right;">
             
                         
-            <a>
+            <a href="<?php echo $_SESSION['url_placeholder'];  ?>newgroup">
                 
             <button class="btn new-group-1">   
                 
-            <img src="pencil.svg" width="20" height="20" class="new-group-2"  />
+            <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/pencil.png" width="20" height="20" class="new-group-2"  />
                     
             Create new group</button>
             
@@ -57,7 +64,7 @@
             
             
             
-            <img src="assets/nopic.png" width="35" height="35" class="current-user-img"  />
+            <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/nopic.png" width="35" height="35" class="current-user-img"  />
             
             
             
@@ -94,7 +101,7 @@
                 <div>
                     
                      
-                    <img src="assets/nopic.png" width="70" height="70" class="writer-profile-img"  />
+                    <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/nopic.png" width="70" height="70" class="writer-profile-img"  />
                     
                    
                     
@@ -122,11 +129,11 @@
                             
                             
                             
-                        <a>
+                        <a href="<?php echo $_SESSION['url_placeholder'];  ?>newgroup">
                 
                         <button class="btn new-group-1">   
                 
-                        <img src="pencil.svg" width="20" height="20" class="new-group-2"  />
+                        <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/pencil.png" width="20" height="20" class="new-group-2"  />
                     
                         Create new group</button>
             
@@ -210,14 +217,14 @@
                         
                         <div class="col-xs-4">
                             
-                           <img src="assets/chatting.svg" width="40" height="40" style="group-list-profile-img"  />
+                           <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/chatting.svg" width="40" height="40" style="group-list-profile-img"  />
                         
                         </div>
                         
                       
                         <div class="col-xs-4">
                             
-                           <img src="assets/typography.svg" width="40" height="40" style="group-list-profile-img"  />
+                           <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/typography.svg" width="40" height="40" style="group-list-profile-img"  />
                         
                         </div>
                       
@@ -225,7 +232,7 @@
                       
                         <div class="col-xs-4">
                             
-                           <img src="assets/camera.svg" width="40" height="40" style="group-list-profile-img"  />
+                           <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/camera.svg" width="40" height="40" style="group-list-profile-img"  />
                         
                         </div>
                         
@@ -241,14 +248,14 @@
                         
                         <div class="col-xs-4">
                             
-                           <img src="assets/video-camera.svg" width="40" height="40" style="group-list-profile-img"  />
+                           <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/video-camera.svg" width="40" height="40" style="group-list-profile-img"  />
                         
                         </div>
                         
                       
                         <div class="col-xs-4">
                             
-                           <img src="assets/hands.svg" width="40" height="40" style="group-list-profile-img"  />
+                           <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/hands.svg" width="40" height="40" style="group-list-profile-img"  />
                         
                         </div>
                       
@@ -256,7 +263,7 @@
                       
                         <div class="col-xs-4">
                             
-                           <img src="assets/controls.svg" width="40" height="40" style="group-list-profile-img"  />
+                           <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/controls.svg" width="40" height="40" style="group-list-profile-img"  />
                         
                         </div>
                         

@@ -8,7 +8,7 @@
     
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
     
-    <link href="../../css/main.css" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="<?php  echo $_SESSION['url_placeholder']; ?>frontend/css/main.css" media="screen,projection" rel="stylesheet" type="text/css">
 	
 	<link href='http://fonts.googleapis.com/css?family=Raleway:400,800' rel='stylesheet' type='text/css'>
 

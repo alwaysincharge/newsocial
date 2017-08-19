@@ -12,7 +12,7 @@
     $fileerrorMsg = $_FILES['groupimg']['error'];
     
     
-    $filePath = '../frontend/html/pages/groupimage/' . $fileName;
+    $filePath =  '../frontend/html/pages/groupimage/' . $_SESSION['admin_id'] . "and" . ( time() );
 
 
 
@@ -52,9 +52,9 @@
     
 
 
-    if  (move_uploaded_file($fileTmpLoc, '../frontend/html/pages/groupimage/' . $fileName)) {
+    if  (move_uploaded_file($fileTmpLoc, $filePath)) {
                  
-        $attach_array = array("attach_path"=> $filePath, "attach_name"=> $fileName, "attach_type"=>$fileType, "post_type"=>"attach");     
+        $attach_array = array("status"=> 1, "attach_path"=> $filePath, "attach_name"=> $fileName, "attach_type"=>$fileType);     
     
         echo json_encode(array_values($attach_array));
          
