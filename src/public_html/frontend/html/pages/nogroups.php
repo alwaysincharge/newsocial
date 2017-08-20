@@ -4,6 +4,42 @@
 <?php $session->if_not_logged_in($_SESSION['url_placeholder'] . 'login'); ?>
 
 
+<?php
+
+
+$get_all_groups_of_user = $member->all_users_groups($_SESSION['admin_id']);
+
+$get_all_groups_of_user_result = $get_all_groups_of_user->get_result();
+
+$numRows = $get_all_groups_of_user_result->num_rows;
+
+      
+               if ($numRows > 0) {
+                   
+                   
+                    while($row = $get_all_groups_of_user_result->fetch_assoc()) {
+                        
+                        redirect_to($_SESSION['url_placeholder'] . 'dashboard/' . $row['group_id']);
+                        
+                    }
+                   
+                   
+
+               } else {
+                   
+                   
+                   
+               }
+
+
+
+
+
+
+
+?>
+
+
 
 <html lang="en">
     

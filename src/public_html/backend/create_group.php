@@ -21,6 +21,10 @@ $img_type = $_POST['group_pic_type'];
 
 $group->create_group($name, $desc, $img_path, $img_name, $img_type, $_SESSION['admin_id']);
 
+$group_id = mysqli_insert_id($database->connection);
+
+$member->create_member($group_id, $_SESSION['admin_id'], "superadmin");
+
 
 
 

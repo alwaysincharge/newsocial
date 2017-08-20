@@ -134,16 +134,17 @@
 
                             
                                                       
-                       <label id="file1label" for="groupimg" class="nogroups-text-2">Upload group image</label>
+                       <label id="file1label" for="groupimg" class="newgroups-text-2">Upload group image</label>
                             
                        <input type="file" id="groupimg" class="btn" style="display: none;"/><br><br>
                             
                             
                             
                             
-                        <p class="nogroups-text-2" id="progressMessage"></p>
+                        <p class="newgroups-text-2" id="progressMessage"></p>
                             
-                        
+                         <p class="newgroups-text-3" id="groupnotif"></p>
+                            
                         <p id="grouperror" class="group-error-1"></p>
                             
                             
@@ -317,23 +318,7 @@
     
 var url_placeholder = "/newsocial/src/public_html/"; 
 
-
-    
-    
-    
-    
-    
-    
-
-
-
-    
-   
-    
-    
-    
-    
-    
+  
     
     
 // When user clicks the login button...
@@ -453,10 +438,10 @@ $('#groupimg').change(function() {
 function uploadFile() { 
         
         
-        var file = _('groupimg').files[0];
+         file = _('groupimg').files[0];
         
-        
-        if (file.size <= 1000000) {
+     //   1000000
+        if (file.size <= 10000000000000000000) {
 
             
              var formdata = new FormData();
@@ -477,45 +462,51 @@ function uploadFile() {
         
         } else {
             
-             _('progressMessage').innerHTML = file.name + " is bigger than 1MB. Try again.";
+
+            $("#groupnotif").html(file.name + " is bigger than 1MB. Try again.");
             
         }
+    
         
         function progressHandler(event) {
             
             
             var percent = (event.loaded / event.total) * 100;
             
-            _('progressMessage').innerHTML = "Uploading " + file.name + " " + percent + "%";
+            $("#groupnotif").html("Uploading " + file.name + " <span style=\" color: red; \">" + Math.round(percent) + "%</span>");
             
         }
         
         
         
         function completeHandler(event) {
+
             
+            result = event.target.responseText;
             
-            
-            var result = event.target.responseText;
             
             alert(result);
             
-            if (result == 1) {
+            if (result.trim() === "1") {
 
-                _('progressMessage').innerHTML = "You have to upload an image.";
+                $("#groupnotif").html("You have to upload an image.");
+        
             
-            } else if (result == 2)  {
+            } else if (result.trim() === "2")  {
                 
-                _('progressMessage').innerHTML = "Your image can only be jpg, png, jpeg or gif.";   
+                $("#groupnotif").html("Your image can only be jpg, png, jpeg or gif.");
                 
-            } else if (result == 3)  {
                 
-                _('progressMessage').innerHTML = "Your file must be an image.";
+            } else if (result.trim() === "3")  {
+                
+                
+                $("#groupnotif").html("Your file must be an image.");
+                
                 
             } else {
                 
                 
-                    var jsonGroup = JSON.parse( event.target.responseText );
+                     jsonGroup = JSON.parse( result );
             
                      group_status =  jsonGroup[0];
                 
@@ -526,15 +517,18 @@ function uploadFile() {
                      group_pic_type = jsonGroup[3];
                 
                 
-                    if (group_status == 1) {
+                    if (group_status === 1) {
                         
                          group_picture_ready = true;
-                             
+                        
+                         set_progress_message();
+                        
+                         $("#groupnotif").html(file.name + " has successfully loaded.");
                         
                     } else {
                         
                         
-                    _('progressMessage').innerHTML = "There is an unexplaind error. Please try again.";
+                    $("#groupnotif").html("There is an unexplaind error. Please try again.");
                         
                     }
                 
@@ -544,7 +538,6 @@ function uploadFile() {
             
             
             
-           _('progressMessage').innerHTML = "";
             
 
         }
@@ -553,7 +546,9 @@ function uploadFile() {
         
         function errorHandler(event) {
             
-            _('status').innerHTML = "Upload fail";
+            
+            $("#groupnotif").html("Upload fail. Please try again.");
+            
             
             
         }
@@ -563,14 +558,14 @@ function uploadFile() {
         
         function abortHandler(event) {
             
-            _('status').innerHTML = "Upload aborted";
+              $("#groupnotif").html("Upload aborted. Please try again.");
             
             
         }
         
         
         
-        
+
         
         
     }
@@ -595,8 +590,7 @@ function uploadFile() {
  }   
     
       
-    
-    
+
     
     
     
@@ -614,15 +608,16 @@ function send_both_text_and_pic(groupname, groupdesc, group_pic_path, group_pic_
         
     }).done(function(data) {
         
-alert(data);
+        window.location.href = url_placeholder + "nogroups";
+        
+        
             
     }).fail(function(jqXHR, textStatus, errorThrown) {
         
-                       $("#loginerror").hide(0);    
-             
-                       $("#loginerror").show(300);
+
         
-                       $("#loginerror").html("Poor connection. Try gain later.");
+        $("#groupnotif").html("Poor connection. Try again.");
+        
         
     });
     

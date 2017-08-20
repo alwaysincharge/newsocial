@@ -46,6 +46,16 @@
 }
 
 
+.newgroups-text-2 {
+    font-family: Josefin Slab;  font-weight: bold; font-size: 16px;font-family: Josefin Slab;  margin-left: 10px; font-weight: lighter; text-decoration: underline;
+}
+
+
+.newgroups-text-3 {
+    
+    font-family: Josefin Slab;  font-weight: bold; font-size: 16px;  margin-left: 10px; color: blue; margin-top: -20px;
+}
+
 
 .login-logo {
   font-family: Eczar;
@@ -66,7 +76,7 @@
 
 
 .newgroup-field-1 {
-margin-left: 10px; width: 250px; padding: 8px; border: 1px solid #505050; border-radius: 3px; font-family: Josefin Slab;
+margin-left: 10px; width: 250px; padding: 8px; border: 1px solid #ddd; border-radius: 3px; font-family: Josefin Slab;
    font-size: 15px;
    font-weight: bold;
     outline: none;
@@ -76,13 +86,16 @@ margin-left: 10px; width: 250px; padding: 8px; border: 1px solid #505050; border
 
 
 .newgroup-field-2 {
-margin-left: 10px; width: 250px; height: 100px; padding: 8px; border: 1px solid #505050; border-radius: 3px; font-family: Josefin Slab;
+margin-left: 10px; width: 250px; height: 100px; padding: 8px; border: 1px solid #ddd; border-radius: 3px; font-family: Josefin Slab;
    font-size: 15px;
    font-weight: bold;
     outline: none;
     margin-top: 10px;
     resize: none;
 }
+
+
+
 
 
 
@@ -208,7 +221,7 @@ padding: 0 0 0 0;
 }
 
 .group-list-row {
-    width: 100%; padding: 0 0 0 0; margin: 0 0 0 0; border-bottom: 2px solid #ddd; padding-bottom: 5px; margin-bottom: 20px;
+    width: 100%; padding: 0 0 0 0; margin: 0 0 0 0; border-bottom: 2px solid #ddd; padding-bottom: 5px; margin-bottom: 20px; cursor: pointer;
 }
 
 .post-owner-img {

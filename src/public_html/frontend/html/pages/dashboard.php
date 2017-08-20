@@ -1,3 +1,10 @@
+<?php  include_once('../../../../includes/all_classes_and_functions.php');  ?>
+
+
+<?php $session->if_not_logged_in($_SESSION['url_placeholder'] . 'login'); ?>
+
+
+
 <html lang="en">
     
     
@@ -31,7 +38,22 @@
         
         <div class="col-xs-6">
             
-            <a class="logo-heading-1">friday camp <span class="logo-heading-2">//</span> <span class="logo-heading-3">physics group work</span></a>
+            <a class="logo-heading-1">friday camp <span class="logo-heading-2">//</span> <span class="logo-heading-3">
+                <?php
+                
+                $get_find_group_by_id = $group->find_group_by_id($_GET['group']);
+
+                $get_find_group_by_id_result = $get_find_group_by_id->get_result();
+
+             
+                    while($group_name = $get_find_group_by_id_result->fetch_assoc()) {
+                        
+                        echo $group_name['name'];
+                        
+                    }
+                
+                ?>
+               </span></a>
                             
         </div>
         
@@ -50,7 +72,7 @@
                 
             <button class="btn new-group-1">   
                 
-            <img src="pencil.svg" width="20" height="20" class="new-group-2"  />
+            <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/pencil.png" width="20" height="20" class="new-group-2"  />
                     
             Create new group</button>
             
@@ -59,7 +81,7 @@
             
             
             
-            <img src="a.jpg" width="35" height="35" class="current-user-img"  />
+            <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/a.jpg" width="35" height="35" class="current-user-img"  />
             
                     
         </div>
@@ -91,7 +113,22 @@
                 <div>
                     
                      
-                    <img src="a.jpg" width="70" height="70" class="writer-profile-img"  />
+                <img src="
+                              
+                <?php
+                
+                $get_find_group_by_id = $group->find_group_by_id($_GET['group']);
+
+                $get_find_group_by_id_result = $get_find_group_by_id->get_result();
+
+             
+                    while($group_img = $get_find_group_by_id_result->fetch_assoc()) {
+                        
+                        echo $group_img['img_path'];
+                        
+                    }
+                
+                ?>   " width="70" height="70" class="writer-profile-img"  />
                     
                    
                     
@@ -113,7 +150,7 @@
                         
                     <div class="col-xs-2" id="chatboxicon" style="cursor: pointer;">
                         
-                        <img src="assets/chatting.svg" class="input-style-1"  />
+                        <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/chatting.svg" class="input-style-1"  />
                         
                         <p class="input-style-2">Chat</p>
                         
@@ -125,7 +162,7 @@
                       
                     <div class="col-xs-2">
                         
-                         <img src="assets/typography.svg" class="input-style-1"  />
+                         <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/typography.svg" class="input-style-1"  />
                         
                          <p class="input-style-2">Text post</p>
                         
@@ -136,7 +173,7 @@
                         
                     <div class="col-xs-2">
                         
-                        <img src="assets/camera.svg" class="input-style-1"  />
+                        <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/camera.svg" class="input-style-1"  />
                         
                          <p class="input-style-2">Photo/Album</p>
                         
@@ -148,7 +185,7 @@
                         
                     <div class="col-xs-2">
                         
-                        <img src="assets/video-camera.svg" class="input-style-1" />
+                        <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/video-camera.svg" class="input-style-1" />
                         
                          <p class="input-style-2">Videos</p>
                         
@@ -161,7 +198,7 @@
                         
                     <div class="col-xs-2">
                         
-                        <img src="assets/hands.svg" class="input-style-1"  />
+                        <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/hands.svg" class="input-style-1"  />
                         
                          <p class="input-style-2">Polls</p>
                         
@@ -172,7 +209,7 @@
                         
                         <div class="col-xs-2">
                         
-                        <img src="assets/controls.svg" class="input-style-1"  />
+                        <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/controls.svg" class="input-style-1"  />
                         
                          <p class="input-style-2">Settings</p>
                         
@@ -225,9 +262,9 @@
                        
                      
                     
-                        <a id="chatboxfile"><img src="assets/attachment.svg" style="width: 20px; cursor: pointer;"  /></a>
+                        <a id="chatboxfile"><img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/attachment.svg" style="width: 20px; cursor: pointer;"  /></a>
                     
-                        <a id="chatboxclose"><img src="assets/cancel.svg" style="width: 20px; margin-left: 10px; cursor: pointer;"  /></a> <br><br>
+                        <a id="chatboxclose"><img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/cancel.svg" style="width: 20px; margin-left: 10px; cursor: pointer;"  /></a> <br><br>
                        
                        
 
@@ -279,11 +316,11 @@
                           <div style="display: table; margin: 0 auto;">
                         
                         
-                        <p id="loadagain" style="display: none;">Poor connection. Try again. <a>Here</a></p>
+                      <!--  <p id="loadagain" style="display: none;">Poor connection. Try again. <a>Here</a></p> -->
                         
                         
                         
-                        <img id="loading" style="display: none;" width="60px" height="60px" src="assets/loading.gif" />
+                        <img id="loading" style="display: none;" width="60px" height="60px" src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/loading.gif" />
                     
                     
                     
@@ -326,14 +363,23 @@
                     
                     
                     
+                <?php
+                
+                $get_find_group_by_id = $group->find_group_by_id($_GET['group']);
+
+                $get_find_group_by_id_result = $get_find_group_by_id->get_result();
+
+             
+                    while($group_list_this = $get_find_group_by_id_result->fetch_assoc()) { ?>
+                        
+                       
                     
-                    
-                  <div class="row group-list-row">
+                 <div class="row group-list-row">
                         
                         
                         <div class="col-xs-2">
                             
-                           <img src="a.jpg" width="40" height="40" style="group-list-profile-img"  />
+                           <img src="<?php echo $group_list_this['img_path']; ?>" width="40" height="40" style="group-list-profile-img"  />
                         
                         </div>
                         
@@ -341,7 +387,7 @@
                         
                         <div class="col-xs-7 group-list-body">
                             
-                            <a class="group-list-name">Family</a><br>                            
+                            <a class="group-list-name"><?php echo $group_list_this['name']; ?></a><br>                            
                             <a class="group-list-membercount">90 members</a>
                         
                         </div>
@@ -350,24 +396,60 @@
                         
                         <div class="col-xs-3 group-list-notif-1">
                             
-                            <img src="assets/view.svg" width="30" height="30" style="group-list-notif-2"  />
+                            <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/view.svg" width="30" height="30" style="group-list-notif-2"  />
                             
                         </div>
                         
                         
                     </div>
                     
+                        
+                 <?php   }
+                
+                ?>
                     
                     
                     
+  <?php                  
                     
+$get_all_groups_of_user = $member->all_users_groups_except($_SESSION['admin_id'], $_GET['group']);
+
+$get_all_groups_of_user_result = $get_all_groups_of_user->get_result();
+
+$numRows = $get_all_groups_of_user_result->num_rows;
+
+      
+               if ($numRows > 0) {
+                   
+                   
+                    while($row = $get_all_groups_of_user_result->fetch_assoc()) {
+                        
                     
-                  <div class="row group-list-row">
+                        
+                        
+                        
+                         $get_find_group_by_id = $group->find_group_by_id($row['group_id']);
+
+                $get_find_group_by_id_result = $get_find_group_by_id->get_result();
+
+             
+                    while($group_list_other = $get_find_group_by_id_result->fetch_assoc()) {  ?>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <div class="row group-list-row" onclick="window.location='<?php echo $_SESSION['url_placeholder'] . "dashboard/" . $group_list_other['id'];   ?>';">
                         
                         
                         <div class="col-xs-2">
                             
-                           <img src="a.jpg" width="40" height="40" style="group-list-profile-img"  />
+                           <img src="<?php  echo $group_list_other['img_path'];   ?>" width="40" height="40" style="group-list-profile-img"  />
                         
                         </div>
                         
@@ -375,7 +457,7 @@
                         
                         <div class="col-xs-7 group-list-body">
                             
-                            <a class="group-list-name">Family</a><br>                            
+                            <a class="group-list-name"><?php  echo $group_list_other['name'];   ?></a><br>                            
                             <a class="group-list-membercount">90 members</a>
                         
                         </div>
@@ -389,46 +471,41 @@
                         </div>
                         
                         
-                    </div>
+                           </div> 
                         
+                        
+                        
+                        
+                        
+                        
+                        
+                  <?php  }
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    }
+                   
+                   
+
+               } else {
+                   
+                   
+                   
+               } ?>
                     
                     
                     
                     
-                  
-                    
-                              
-                  <div class="row group-list-row">
-                        
-                        
-                        <div class="col-xs-2">
-                            
-                           <img src="a.jpg" width="40" height="40" style="group-list-profile-img"  />
-                        
-                        </div>
-                        
-                      
-                        
-                        <div class="col-xs-7 group-list-body">
-                            
-                            <a class="group-list-name">Family</a><br>                            
-                            <a class="group-list-membercount">90 members</a>
-                        
-                        </div>
-                        
-                        
-                        
-                        <div class="col-xs-3 group-list-notif-1">
-                            
-                            <a class="group-list-notifs">76+</a>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                        
-                    
-                    
+
                     
                     
                     

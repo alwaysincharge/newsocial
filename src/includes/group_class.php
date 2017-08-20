@@ -33,6 +33,26 @@ class Group {
        return $stmt;    
 
        }
+    
+    
+    
+    
+    
+       public function find_group_by_id($id_input) {
+
+       global $database;
+        
+       $stmt = $database->connection->prepare("select * from groups where id = ? limit 1");
+        
+       $stmt->bind_param("i", $id);
+        
+       $id = $id_input;      
+          
+       $stmt->execute();
+           
+       return $stmt;    
+
+       }
    
 
 
