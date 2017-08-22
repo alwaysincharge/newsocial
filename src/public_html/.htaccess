@@ -11,6 +11,8 @@ RewriteRule ^newgroup frontend/html/pages/newgroup.php [NC,L]
 
 RewriteRule ^dashboard/([0-9]+) frontend/html/pages/dashboard.php?group=$1 [NC,L]
 
+RewriteRule ^members/([0-9]+) frontend/html/pages/members.php?members=$1 [NC,L]
+
 RewriteRule ^logout backend/logout.php [NC,L]
 
 

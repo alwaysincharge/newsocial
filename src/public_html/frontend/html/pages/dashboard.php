@@ -68,7 +68,7 @@
             
             
             
-            <a>
+            <a href="<?php echo $_SESSION['url_placeholder'];  ?>newgroup">
                 
             <button class="btn new-group-1">   
                 
@@ -206,14 +206,14 @@
                         
                         
                        
-                        
+                        <a href="<?php echo $_SESSION['url_placeholder'] . "members/" . $_GET['group'];  ?>">
                         <div class="col-xs-2">
                         
-                        <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/controls.svg" class="input-style-1"  />
+                        <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/collaboration.svg" class="input-style-1"  />
                         
-                         <p class="input-style-2">Settings</p>
+                         <p class="input-style-2">Members</p>
                         
-                    </div>
+                        </div> </a>
                         
                         
                     
@@ -388,7 +388,17 @@
                         <div class="col-xs-7 group-list-body">
                             
                             <a class="group-list-name"><?php echo $group_list_this['name']; ?></a><br>                            
-                            <a class="group-list-membercount">90 members</a>
+                            <a class="group-list-membercount"> <?php
+                                                                                            
+                                              
+$all_members_of_this_group = $member->all_members_of_this_group($group_list_this['id']);
+
+$all_members_of_this_group_result = $all_members_of_this_group->get_result();                                                                  
+                                                                                            
+                         while($members_this = $all_members_of_this_group_result->fetch_assoc()) { echo $members_this['count'];  }                                                                   
+                                                                                            
+                                                                                            
+                       ?> members</a>
                         
                         </div>
                         
@@ -439,7 +449,7 @@ $numRows = $get_all_groups_of_user_result->num_rows;
                         
                         
                         
-                        
+               
                         
                         
                         
@@ -458,7 +468,17 @@ $numRows = $get_all_groups_of_user_result->num_rows;
                         <div class="col-xs-7 group-list-body">
                             
                             <a class="group-list-name"><?php  echo $group_list_other['name'];   ?></a><br>                            
-                            <a class="group-list-membercount">90 members</a>
+                            <a class="group-list-membercount">         <?php
+                                                                                            
+                                              
+$all_members_of_this_group = $member->all_members_of_this_group($group_list_other['id']);
+
+$all_members_of_this_group_result = $all_members_of_this_group->get_result();                                                                  
+                                                                                            
+                         while($members_other = $all_members_of_this_group_result->fetch_assoc()) { echo $members_other['count'];  }                                                                   
+                                                                                            
+                                                                                            
+                       ?> members</a>
                         
                         </div>
                         

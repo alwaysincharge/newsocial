@@ -242,6 +242,48 @@ padding: 0 0 0 0;
 }
 
 
+
+.membership-main {
+    
+    display: table; margin: 0 auto;
+    
+}
+
+.member-list {
+     width: 400px; margin-left: 5px; margin-bottom: 20px;
+}
+
+#membererror {
+    
+   font-weight: bold; font-size: 16px;font-family: Josefin Slab; margin-top: 10px;  
+    
+}
+
+.member-list-item {
+    font-weight: bold; font-size: 16px;font-family: Josefin Slab;
+}
+
+.member-list-member {
+    font-weight: bold; font-size: 16px;font-family: Josefin Slab;
+}
+
+
+.member-list-state {
+    font-weight: bold; font-size: 16px;font-family: Josefin Slab;
+}
+
+.new-member-1 {
+    width: 400px; margin-bottom: 50px;
+}
+
+.membership-subtitle {
+    font-weight: bold; font-size: 16px;font-family: Josefin Slab;
+}
+
+.membership-title {
+    display: table; margin: 0 auto; font-weight: bold; font-size: 21px;font-family: Josefin Slab; margin-bottom: 30px;
+}
+
 .chat-left-2 {
      margin-top: 0px; margin-left: 0px;
 }
@@ -252,6 +294,11 @@ padding: 0 0 0 0;
 
 .new-group-1 {
     margin-left: 10px;   font-family: Josefin Slab; font-size: 15px; font-weight: bold; outline:0 !important;
+}
+
+
+.mem-group-1 {
+       font-family: Josefin Slab; font-size: 15px; font-weight: bold; outline:0 !important; padding-bottom: 10px; padding-top: 10px; margin-bottom: 10px; display: inline;
 }
 
 .new-group-2 {

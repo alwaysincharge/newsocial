@@ -67,6 +67,47 @@ class Member {
        return $stmt;    
 
        }
+    
+    
+    
+    
+       public function this_user_this_group($member_id_input, $group_id_input) {
+
+       global $database;
+        
+       $stmt = $database->connection->prepare("select * from membership where member_id = ? AND group_id = ? limit 1");
+        
+       $stmt->bind_param("ii", $member_id, $group_id);
+        
+       $member_id = $member_id_input;  
+           
+       $group_id = $group_id_input;
+          
+       $stmt->execute();
+           
+       return $stmt;    
+
+       }
+    
+    
+    
+    
+    
+       public function all_members_of_this_group($group_id_input) {
+
+       global $database;
+        
+       $stmt = $database->connection->prepare("select count(*) as count from membership where group_id = ?");
+        
+       $stmt->bind_param("i", $group_id);
+           
+       $group_id = $group_id_input;
+          
+       $stmt->execute();
+           
+       return $stmt;    
+
+       }
 
 
 }
