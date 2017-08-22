@@ -48,6 +48,25 @@ class Request {
        return $stmt;    
 
        }
+    
+    
+    
+    
+       public function current_member_requests($member_id_input) {
+
+       global $database;
+        
+       $stmt = $database->connection->prepare("select * from request_member where member_id = ?");
+        
+       $stmt->bind_param("i",  $member_id);
+        
+       $member_id = $member_id_input;  
+          
+       $stmt->execute();
+           
+       return $stmt;    
+
+       }
    
      
 

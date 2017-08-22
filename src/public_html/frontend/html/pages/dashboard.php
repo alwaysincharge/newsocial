@@ -36,7 +36,7 @@
     <div class="row nav-main-row">
         
         
-        <div class="col-xs-6">
+        <div class="col-xs-4">
             
             <a class="logo-heading-1">friday camp <span class="logo-heading-2">//</span> <span class="logo-heading-3">
                 <?php
@@ -60,7 +60,10 @@
         
         
         
-        <div class="col-xs-6">
+        <div class="col-xs-8">
+            
+            
+            <div style="float: right;">
             
             
             <input maxlength="100" name="keywords" class="search-main" placeholder="Search this group" />
@@ -79,9 +82,97 @@
             </a>
             
             
+                <div class="dropdown">
+           
+                      <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/notification.svg" width="35" height="35" class="current-user-img"  />
+                    
+                <div class="dropdown-content">
+                    
+                      <?php
+                    
+                    
+                      $request_list = $request->current_member_requests($_SESSION['admin_id']); 
+          
+                      $request_list_result = $request_list->get_result();
+          
+          
+                      if ($request_list_result->num_rows > 0) {
+              
+                        
+                          while($row_list_request = $request_list_result->fetch_assoc()) { ?>
+                              
+                              
+                                <?php 
+                              
+                                $group_details = $group->find_group_by_id($row_list_request['group_id']); 
+          
+                                $group_details_result = $group_details->get_result();
+                              
+                                $row_group = $group_details_result->fetch_assoc();
+                              
+                                
+                              
+                              
+                              
+                              
+                                $user_details = $user->find_one_user($row_list_request['sender_id']); 
+          
+                                $user_details_result = $user_details->get_result();
+                              
+                                $row_user = $user_details_result->fetch_assoc();
+                                                                                          
+                                ?>
+                    
+                    
+                              
+                              <div class="row">
+                    
+                                  <div class="col-xs-2">
+                                  
+                                      <img src="<?php echo $row_group['img_path'];  ?>" width="35" height="35" class="current-user-img"  />
+                                  
+                                  </div>
+                    
+                                  
+                                  
+                                  <div class="col-xs-6" style="font-weight: bold; font-size: 16px;font-family: Josefin Slab;">
+                                  <p><?php echo $row_user['username'];  ?> wants you to join <span style="color: blue;"><?php echo $row_group['name'];  ?></span></p>
+                                  
+                                  </div>
+                                  
+                                  
+                                  <div class="col-xs-4">
+                                              <a style="font-weight: bold; font-size: 14px;font-family: Josefin Slab; background: #ddd; padding: 7px; border-radius: 4px; margin-right: 7px;">accept</a>
+                                      
+                                      <a style="font-weight: bold; font-size: 14px;font-family: Josefin Slab; background: #ddd; padding: 7px; border-radius: 4px;">decline</a>
+                                      
+
+                                  
+                                  </div>
+                    
+                    
+                              </div>
+                              
+                       <?php   }
+                          
+                          
+        
+                      } else {
+                          
+                          echo "none";
+                      }
             
+                    
+                      ?>
+                    
+                </div>
+                    
+                </div>
             
             <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/a.jpg" width="35" height="35" class="current-user-img"  />
+            
+            
+            </div>
             
                     
         </div>

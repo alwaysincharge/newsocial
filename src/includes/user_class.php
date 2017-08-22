@@ -76,7 +76,7 @@ class User {
          
          global $database;
                             
-         $stmt = $database->connection->prepare("select id, username, img_path from users where id = ?");
+         $stmt = $database->connection->prepare("select * from users where id = ?");
         
          $stmt->bind_param("i", $id);
 
