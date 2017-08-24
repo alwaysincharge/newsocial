@@ -1,3 +1,5 @@
+
+
 <?php  include_once('../../../../includes/all_classes_and_functions.php');  ?>
 
 
@@ -125,7 +127,7 @@
                     
                     
                               
-                              <div class="row">
+                              <div class="row" id="group<?php echo $row_group['id'];  ?>">
                     
                                   <div class="col-xs-2">
                                   
@@ -142,9 +144,38 @@
                                   
                                   
                                   <div class="col-xs-4">
-                                              <a style="font-weight: bold; font-size: 14px;font-family: Josefin Slab; background: #ddd; padding: 7px; border-radius: 4px; margin-right: 7px;">accept</a>
                                       
-                                      <a style="font-weight: bold; font-size: 14px;font-family: Josefin Slab; background: #ddd; padding: 7px; border-radius: 4px;">decline</a>
+                                      
+                                      <form method="post" action="<?php echo $_SESSION['url_placeholder'];  ?>accept_request" style="width: 30px; display: inline;">
+                                      
+                                      <input type="text" name="group_id" style="display: none;" value="<?php echo $row_group['id'];  ?>" />
+                                         
+                                          
+                                      
+                                          
+                                     <input type="submit" name="submit" value="accept" class="btn" style="outline: 0px ! important; font-weight: bold; font-size: 14px;font-family: Josefin Slab; background: #ddd; padding: 7px; border-radius: 4px; margin-right: 1px;" /> 
+                                      
+                                      
+                                      </form>
+                                      
+                                      
+                                              
+                                      
+                                      
+                                      
+                                      
+                                                      <div style="width: 30px; display: inline;">
+                                      
+
+                                         
+                                          
+                                      
+                                          
+                                     <input type="submit" onclick="myFunction('<?php echo $row_group['id'];  ?>')" name="submit" value="decline" class="btn" style="font-weight: bold; font-size: 14px;font-family: Josefin Slab; background: #ddd; padding: 7px; border-radius: 4px; margin-right: 0px;" /> 
+                                      
+                                      
+                                      </div>
+                                      
                                       
 
                                   
@@ -1065,7 +1096,10 @@ var flag;
     function sendChatData( e, slate, name1 ) {
         
        var dosome = function( data ) {
-          $( "#" + data ).html('<img style=\" height: 15px; width: 15px; \" src=\"assets/sent.png\" />');
+           
+           hhhj = "<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png";
+           
+          $( "#" + data ).html('<img style=\" height: 15px; width: 15px; \" src=\" ' + hhhj + '  \" />');
        };
         
        var nameTrim = $( "#name" ).val().trim();
@@ -1075,16 +1109,22 @@ var flag;
           $( "#name" ).val( "" );
           e.preventDefault();
           //Submit the form to the database.
+           
+                   post_url_2 = "<?php  echo $_SESSION['url_placeholder'];  ?>" + "send_chat";    
+           
           $.ajax( {
-             url: "ajax.php",
+             url: post_url_2,
              type: "POST",
              async: true,
              data: {
                 "done": 1,
-                "name": name1
+                "message": name1
              },
              success: function( data ) {
-                if ( data == 23 ) {
+                 
+                 
+                 
+                if ( data == 1 ) {
                    dosome( slate );
                 } else {}
                 // After submitting, clear the chat box.
@@ -1104,7 +1144,35 @@ var flag;
     
     
     
-    
+   function myFunction(group) {
+       
+       post_url = "<?php  echo $_SESSION['url_placeholder'];  ?>" + "decline_request";
+       
+       $.ajax( {
+             url: post_url,
+             type: "POST",
+             async: true,
+             data: {
+                "deleterequest": 1,
+                "group_id": group
+             },
+             success: function( data ) {
+                 
+                if ( data == 1 ) {
+                    alert(data);
+                   $("#group" + group).hide();
+                } 
+             },
+           
+             error: function( xhr, textStatus, errorThrown ) {
+             
+                 
+                 
+             }
+          } );
+       
+       
+   } 
     
     
     

@@ -67,6 +67,27 @@ class Request {
        return $stmt;    
 
        }
+    
+    
+    
+    
+       public function delete_request($member_id_input, $group_id_input) {
+
+       global $database;
+        
+       $stmt = $database->connection->prepare("delete from request_member where member_id = ? AND group_id = ? limit 1");
+        
+       $stmt->bind_param("ii",  $member_id, $group_id);
+        
+       $member_id = $member_id_input;  
+           
+       $group_id = $group_id_input; 
+          
+       $stmt->execute();
+           
+       return $stmt;    
+
+       }
    
      
 
