@@ -1,3 +1,6 @@
+<?php  include_once('../../includes/all_classes_and_functions.php');  ?>
+
+<?php $session->if_not_logged_in($_SESSION['url_placeholder'] . 'login'); ?>
 
 
 
@@ -6,44 +9,28 @@
 
 <?php
 
-if(isset($_POST['felted']))  {
+if(isset($_POST['fetchnew']))  {
     
-    $laminate = $_POST['laminate'];
+    $offset = $_POST['offset'];
     
-      if ($laminate == 0) {
-          
-          $query2 = "select * from timeline order by id desc limit 12";
-          
-      } else {
-          
-          $query2 = "select * from timeline where id < '{$laminate}' order by id desc limit 12";
-          
-      }
+    $new_chat = $posts->get_new_chat($offset, $_SESSION['admin_id']); 
     
+    $new_chat_result = $new_chat->get_result();
     
+    $rows = array();
     
-    $result2 = mysqli_query($connection, $query2);
-    
-    $row2 = array();
-while($r2 = mysqli_fetch_assoc($result2)) {
-    $row2[] = $r2;
-}
-
-
-
-echo json_encode(array('allposts1' => $row2));
-
-    
-  /*  while ($row = mysqli_fetch_assoc($result1)) {
+    while($r = $new_chat_result->fetch_assoc()) {
         
-        echo $row['name'] . "<br>";
+    $rows[] = $r;
         
-        
-    } */
+    }
+
+
+
+    echo json_encode(array('new_posts' => $rows));
+
     
     exit();
-    
-    
     
     
     

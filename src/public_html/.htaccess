@@ -23,6 +23,30 @@ RewriteRule ^send_chat backend/send_chat.php [NC,L]
 
 RewriteRule ^fetch_recent_posts backend/fetch_recent_posts.php [NC,L]
 
+RewriteRule ^fetch_old_posts backend/fetch_old_posts.php [NC,L]
+
+RewriteRule ^send_attach backend/send_attach.php [NC,L]
+
+RewriteRule ^insert_attach backend/insert_attach.php [NC,L]
+
+RewriteRule ^link_prepare backend/link_prepare.php [NC,L]
+
+RewriteRule ^link_preview backend/link_preview.php [NC,L]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

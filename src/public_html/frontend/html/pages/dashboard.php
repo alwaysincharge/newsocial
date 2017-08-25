@@ -727,7 +727,7 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
         
         ajax.addEventListener("abort", abortHandler, false);
         
-        ajax.open("POST", "files.php");
+        ajax.open("POST", "<?php echo $_SESSION['url_placeholder'];  ?>send_attach");
         
         ajax.send(formdata);
         
@@ -761,6 +761,9 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
         
         
         function completeHandler(event) {
+            
+            
+            alert(event.target.responseText);
             
             _('status').innerHTML = "";
             
@@ -882,7 +885,7 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
     
     var lastTimeID = 0;
     var firstTimeID = 0;
-    var lam = "n";
+    var lam = "text" + 1;
     
     
     
@@ -907,17 +910,22 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
     
     // Fetch new chat data from the database.
     function displayFromDatabase() {
+        
+       fetch_new_url = "<?php echo $_SESSION['url_placeholder'];  ?>fetch_recent_posts";
+        
        $.ajax( {
-          url: "ajax.php",
+          url: fetch_new_url,
           type: "POST",
           async: true,
           data: {
-             "melted": 1,
-             "laminate": lastTimeID
+             "fetchnew": 1,
+             "offset": lastTimeID
           },
           success: function( d ) {
+              
+             // alert(d);
              var jsonData = JSON.parse( d );
-             var jsonLength = jsonData.allposts.length;
+             var jsonLength = jsonData.new_posts.length;
              var html = "";
              var lastTimeIDzeroTest;
              //If lastTimeID is zero.
@@ -925,11 +933,11 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
                 lastTimeIDzeroTest = 1;
              }
              for ( var i = 0; i < jsonLength; i++ ) {
-                var result = jsonData.allposts[ i ];
+                var result = jsonData.new_posts[ i ];
                 // For each row from the database, set the last processed id number to lastTimeID.
                 lastTimeID = result.id;
                 // If the row's id is even.
-                if ( result.post_type == 'attach' ) {
+                if ( result.type == 'attach' ) {
                 
                     
                      
@@ -937,7 +945,7 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
                      
                    html += '<div class=\"row\">';
                 html += '<div class=\"col-xs-2\">';
-                html += '<a><img src=\"tumblr_oonx42GBY31tl2cbeo1_500.jpg\" class=\"chat-left-1\"  /></a>';
+                html += '<a><img src=\"\" class=\"chat-left-1\"  /></a>';
                 html += '</div>';
                 html += '<div class=\"col-xs-10\">';
                 html += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
@@ -953,10 +961,10 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
                    html += '<div class=\"col-xs-10\">';
                    html += '<div class=\"talk-bubble1 tri-right1 left-top1\" class=\"chat-right-1\">';
                    html += '<div class=\"talktext1\">';
-                   html += '<p>' + result.name + '</p>';
+                   html += '<p>' + result.message + '</p>';
                    html += ' </div></div></div>';
                    html += '<div class=\"col-xs-2\">';
-                   html += '<a><img src=\"tumblr_oonx42GBY31tl2cbeo1_500.jpg\" class=\"chat-right-2\"  /></a>';
+                   html += '<a><img src=\"\" class=\"chat-right-2\"  /></a>';
                    html += '</div>';
                    html += '</div>';
                 }
@@ -985,16 +993,18 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
     
     // Retrive old rows from database.
     function displayFromDatabasePagination() {
+        
+         fetch_old_url = "<?php echo $_SESSION['url_placeholder'];  ?>fetch_old_posts";
       
 var flag;
         
     flag =   $.ajax( {
-          url: "ajax.php",
+          url: fetch_old_url,
           type: "POST",
           async: true,
           data: {
-             "felted": 1,
-             "laminate": firstTimeID
+             "fetchold": 1,
+             "offset": firstTimeID
           },
           success: function( dd ) {
               
@@ -1004,19 +1014,19 @@ var flag;
                                   $('#loadagain').hide();
               $('#loading').hide();
              var jsonData2 = JSON.parse( dd );
-             var jsonLength2 = jsonData2.allposts1.length;
+             var jsonLength2 = jsonData2.old_posts.length;
               
              var html2 = "";
              for ( var i2 = 0; i2 < jsonLength2; i2++ ) {
-                var result2 = jsonData2.allposts1[ i2 ];
+                var result2 = jsonData2.old_posts[ i2 ];
                 firstTimeID = result2.id;
                  
                  
-                 if(result2.post_type == 'attach') {
+                 if(result2.type == 'attach') {
                      
                    html2 += '<div class=\"row\">';
                 html2 += '<div class=\"col-xs-2\">';
-                html2 += '<a><img src=\"tumblr_oonx42GBY31tl2cbeo1_500.jpg\" class=\"chat-left-1\"  /></a>';
+                html2 += '<a><img src=\"\" class=\"chat-left-1\"  /></a>';
                 html2 += '</div>';
                 html2 += '<div class=\"col-xs-10\">';
                 html2 += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
@@ -1029,12 +1039,12 @@ var flag;
                        
                 html2 += '<div class=\"row\">';
                 html2 += '<div class=\"col-xs-2\">';
-                html2 += '<a><img src=\"tumblr_oonx42GBY31tl2cbeo1_500.jpg\" class=\"chat-left-1\"  /></a>';
+                html2 += '<a><img src=\"\" class=\"chat-left-1\"  /></a>';
                 html2 += '</div>';
                 html2 += '<div class=\"col-xs-10\">';
                 html2 += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
                 html2 += '<div class=\"talktext\">';
-                html2 += '<p>' + result2.id + ' ( ' +  firstTimeID + ' ) ' + result2.name + '</p>';
+                html2 += '<p>' + result2.id + ' ( ' +  firstTimeID + ' ) ' + result2.message + '</p>';
                 html2 += ' </div></div></div></div>';  
                      
                  }
@@ -1183,26 +1193,26 @@ var flag;
           $( "#" + data ).html('<img style=\" height: 15px; width: 15px; \" src=\"sent.png\" />');
        };
         
-     // alert(posttype333);
+
             
             
-            
+            insert_attach_url = "<?php  echo $_SESSION['url_placeholder'];  ?>" + "insert_attach";
             
   
           $.ajax( {
-             url: "add.php",
+             url: insert_attach_url,
              type: "POST",
              async: true,
              data: {
-                "donse": 1,
+                "insert_attach": 1,
                 "path": path333,
                  "name": name333,
                  "type": type333,
                  "posttype": posttype333
              },
              success: function( datas ) {
-                 
-                if ( datas == 23 ) {
+                      alert(datas);
+                if ( datas == 1 ) {
                    dooo( slate );
                 } else {}
              },
@@ -1252,7 +1262,7 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
             
   
           $.ajax( {
-             url: "link.php",
+             url: "<?php echo $_SESSION['url_placeholder']; ?>link_prepare",
              type: "POST",
              async: true,
              dataType:"text",
@@ -1308,7 +1318,7 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
             
   
           $.ajax( {
-             url: "preview.php",
+             url: "<?php echo $_SESSION['url_placeholder']; ?>link_preview",
              type: "POST",
              async: true,
              data: {
@@ -1386,7 +1396,7 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
             var html3 = '';
           html3 += '<div class=\"row\">';
           html3 += '<div class=\"col-xs-2\">';
-          html3 += '<a><img src=\"tumblr_oonx42GBY31tl2cbeo1_500.jpg\" class=\"chat-left-1\"  /></a>';
+          html3 += '<a><img src=\"\" class=\"chat-left-1\"  /></a>';
           html3 += '</div>';
           html3 += '<div class=\"col-xs-10\">';
           html3 += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
@@ -1398,7 +1408,7 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
           $( '#areas2' ).prepend( new_items1 );
           new_items1.show( 'fast' );
           sendChatData2( lam, attach_path2, attach_name2, attach_type2, post_type2 );
-          lam = lam + lam;
+          lam = lam + 1;
             
         } else {
             
@@ -1408,7 +1418,7 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
           var html3 = '';
           html3 += '<div class=\"row\">';
           html3 += '<div class=\"col-xs-2\">';
-          html3 += '<a><img src=\"tumblr_oonx42GBY31tl2cbeo1_500.jpg\" class=\"chat-left-1\"  /></a>';
+          html3 += '<a><img src=\"\" class=\"chat-left-1\"  /></a>';
           html3 += '</div>';
           html3 += '<div class=\"col-xs-10\">';
           html3 += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
@@ -1427,7 +1437,7 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
                 
                 
           sendChatData( e, lam, name );
-          lam = lam + lam;
+          lam = lam + 1;
        
        }
             
