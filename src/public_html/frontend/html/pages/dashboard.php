@@ -6,6 +6,18 @@
 <?php $session->if_not_logged_in($_SESSION['url_placeholder'] . 'login'); ?>
 
 
+<?php
+
+$user_details = $user->find_one_user($_SESSION['admin_id']);
+
+$user_details_result = $user_details->get_result();
+
+$user_info = $user_details_result->fetch_assoc();
+
+
+?>
+
+
 
 <html lang="en">
     
@@ -200,7 +212,7 @@
                     
                 </div>
             
-            <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/a.jpg" width="35" height="35" class="current-user-img"  />
+            <img src="" width="35" height="35" class="current-user-img"  />
             
             
             </div>
@@ -674,6 +686,10 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
 
 <script type="text/javascript">
     
+    
+    page_group_id = "<?php echo $_GET['group'];  ?>";
+    
+    
        function _(el) {
             
             return document.getElementById(el);
@@ -961,10 +977,11 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
                    html += '<div class=\"col-xs-10\">';
                    html += '<div class=\"talk-bubble1 tri-right1 left-top1\" class=\"chat-right-1\">';
                    html += '<div class=\"talktext1\">';
+                   html += '<p>' + result.username + '</p>';
                    html += '<p>' + result.message + '</p>';
                    html += ' </div></div></div>';
                    html += '<div class=\"col-xs-2\">';
-                   html += '<a><img src=\"\" class=\"chat-right-2\"  /></a>';
+                   html += '<a><img src=\" ' +  '<?php echo $_SESSION['url_placeholder'];  ?>' + result.image  +' \" class=\"chat-right-2\"  /></a>';
                    html += '</div>';
                    html += '</div>';
                 }
@@ -1039,11 +1056,12 @@ var flag;
                        
                 html2 += '<div class=\"row\">';
                 html2 += '<div class=\"col-xs-2\">';
-                html2 += '<a><img src=\"\" class=\"chat-left-1\"  /></a>';
+                html2 += '<a><img src=\" '+ '<?php echo $_SESSION['url_placeholder'];  ?>' + result2.image +'  \" class=\"chat-left-1\"  /></a>';
                 html2 += '</div>';
                 html2 += '<div class=\"col-xs-10\">';
                 html2 += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
                 html2 += '<div class=\"talktext\">';
+                html2 += '<p>' + result2.username + '</p>';
                 html2 += '<p>' + result2.id + ' ( ' +  firstTimeID + ' ) ' + result2.message + '</p>';
                 html2 += ' </div></div></div></div>';  
                      
@@ -1120,15 +1138,17 @@ var flag;
           e.preventDefault();
           //Submit the form to the database.
            
-                   post_url_2 = "<?php  echo $_SESSION['url_placeholder'];  ?>" + "send_chat";    
+                   post_url_2 = "<?php  echo $_SESSION['url_placeholder'];  ?>" + "send_chat";   
            
+                   
           $.ajax( {
              url: post_url_2,
              type: "POST",
              async: true,
              data: {
                 "done": 1,
-                "message": name1
+                "message": name1,
+                 "group_id": page_group_id
              },
              success: function( data ) {
                  
@@ -1418,11 +1438,12 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
           var html3 = '';
           html3 += '<div class=\"row\">';
           html3 += '<div class=\"col-xs-2\">';
-          html3 += '<a><img src=\"\" class=\"chat-left-1\"  /></a>';
+          html3 += '<a><img src=\" '+  '<?php echo $_SESSION['url_placeholder'] . $user_info['img_path'];  ?>' +' \" class=\"chat-left-1\"  /></a>';
           html3 += '</div>';
           html3 += '<div class=\"col-xs-10\">';
           html3 += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
           html3 += '<div class=\"talktext\">';
+          html3 += '<p>' + '<?php echo $user_info['username'];  ?>' + '</p>';        
           html3 += '<p>' + name + '</p><span id=\"' + lam + '\" ></span>';
           html3 += ' </div></div></div></div>';
           // Return and prepend just parsed json from the database to the page. 

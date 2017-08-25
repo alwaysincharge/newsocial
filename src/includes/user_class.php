@@ -10,9 +10,9 @@ class User {
 
        global $database;
         
-       $stmt = $database->connection->prepare("INSERT INTO users (username, password, email) VALUES (?, ?, ?)");
+       $stmt = $database->connection->prepare("INSERT INTO users (username, password, email, img_path) VALUES (?, ?, ?, ?)");
         
-       $stmt->bind_param("sss", $username, $password, $email);
+       $stmt->bind_param("ssss", $username, $password, $email, $img_path);
 
        // set parameters and execute
         
@@ -21,6 +21,8 @@ class User {
        $password = $password_input;
         
        $email = $email_input;   
+           
+       $img_path = "frontend/html/pages/assets/nopic.png";
           
        $stmt->execute();
            
