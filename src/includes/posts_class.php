@@ -37,7 +37,7 @@ class Posts {
 
        global $database;
         
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.id > ? AND posts.owner != ? limit 20");
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.id > ? AND posts.owner != ? limit 20");
         
        $stmt->bind_param("ii", $offset, $not_owner);
         
@@ -59,7 +59,23 @@ class Posts {
 
        global $database;
         
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner order by id desc limit 12");
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner order by id desc limit 12");
+          
+       $stmt->execute();
+           
+       return $stmt;    
+
+       }
+    
+    
+    
+    
+    
+       public function get_very_last_post() {
+
+       global $database;
+        
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner order by id desc limit 1");
           
        $stmt->execute();
            
@@ -78,7 +94,7 @@ class Posts {
 
        global $database;
         
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.id < ? order by id desc limit 12");
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.id < ? order by id desc limit 12");
         
        $stmt->bind_param("i", $offset);
         
@@ -94,13 +110,13 @@ class Posts {
     
     
     
-       public function insert_attach($path_input, $name_input, $type_input, $post_type_input) {
+       public function insert_attach($path_input, $name_input, $type_input, $post_type_input, $group_input, $owner_id_input) {
 
        global $database;
         
-       $stmt = $database->connection->prepare("INSERT INTO posts (attach_path, attach_name, attach_type, type) VALUES ( ?, ?, ?, ?)");
+       $stmt = $database->connection->prepare("INSERT INTO posts (attach_path, attach_name, attach_type, type, group_id, deleted, owner) VALUES ( ?, ?, ?, ?, ?, ?, ?)");
         
-       $stmt->bind_param("ssss", $path, $name, $type, $post_type);
+       $stmt->bind_param("ssssisi", $path, $name, $type, $post_type, $group, $deleted, $owner_id);
         
        $path = $path_input;
            
@@ -109,6 +125,12 @@ class Posts {
        $type = $type_input;
            
        $post_type = $post_type_input;
+           
+       $group = $group_input;
+           
+       $deleted = "live";
+           
+       $owner_id = $owner_id_input;
            
        $stmt->execute();
            

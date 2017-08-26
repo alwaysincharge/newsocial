@@ -13,7 +13,17 @@ if(isset($_POST['fetchnew']))  {
     
     $offset = $_POST['offset'];
     
-    $new_chat = $posts->get_new_chat($offset, $_SESSION['admin_id']); 
+    if ($offset == 0) {
+        
+        $new_chat = $posts->get_very_last_post(); 
+        
+    } else {
+        
+        $new_chat = $posts->get_new_chat($offset, $_SESSION['admin_id']);
+        
+    }
+    
+    
     
     $new_chat_result = $new_chat->get_result();
     

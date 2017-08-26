@@ -360,7 +360,7 @@ $user_info = $user_details_result->fetch_assoc();
                     
                    <div id="chatbox" style="display: none;">
                     
-                        <textarea id="name" type="text" class="search-main" placeholder="write something" style="margin-bottom: 10px; width: 100%; height: 100px; resize: none; outline: none;"></textarea>
+                        <textarea id="name" type="text" class="search-main" placeholder="write something" style="margin-bottom: 10px; width: 100%; height: 50px; resize: none; outline: none;"></textarea>
                        
                        
                        
@@ -939,7 +939,7 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
           },
           success: function( d ) {
               
-             // alert(d);
+              
              var jsonData = JSON.parse( d );
              var jsonLength = jsonData.new_posts.length;
              var html = "";
@@ -953,26 +953,64 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
                 // For each row from the database, set the last processed id number to lastTimeID.
                 lastTimeID = result.id;
                 // If the row's id is even.
-                if ( result.type == 'attach' ) {
-                
-                    
-                     
+
                  
+                 if(result.type == 'attach' && result.owner == "<?php echo $user_info['id']; ?>") {
                      
                    html += '<div class=\"row\">';
                 html += '<div class=\"col-xs-2\">';
-                html += '<a><img src=\"\" class=\"chat-left-1\"  /></a>';
+                html += '<a><img src=\" '+ '<?php echo $_SESSION['url_placeholder'];  ?>' + result.image  +' \" class=\"chat-left-1\"  /></a>';
                 html += '</div>';
                 html += '<div class=\"col-xs-10\">';
                 html += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
                 html += '<div class=\"talktext\">';
-                html += '<p>' + result.id + ' ()  <a href=\" ' + result.attach_path  + ' \" download>' + result.attach_name + '</a></p>';
+                html += '<p>' + result.username + '</p>';
+                html += '<p><a href=\" ' + result.path  + ' \" download>' + result.name + '</a></p>';
                 html += ' </div></div></div></div>';    
-                   
+                     
+                 }  
+                 
+                 
+                 
+                    if(result.type == 'attach' && result.owner != "<?php echo $user_info['id']; ?>") {
+         
+                   html += '<div class=\"row\">';
+                   html += '<div class=\"col-xs-10\">';
+                   html += '<div class=\"talk-bubble1 tri-right1 left-top1\" class=\"chat-right-1\">';
+                   html += '<div class=\"talktext1\">';
+                   html += '<p>' + result.username + '</p>';
+                   html += '<p><a href=\" ' + result.path  + ' \" download>' + result.name + '</a></p>';
+                   html += ' </div></div></div>';
+                   html += '<div class=\"col-xs-2\">';
+                   html += '<a><img src=\" ' +  '<?php echo $_SESSION['url_placeholder'];  ?>' + result.image  +' \" class=\"chat-right-2\"  /></a>';
+                   html += '</div>';
+                   html += '</div>';
+                    
+                 }
+                 
+                 
+                 
+                 if (result.type == "chat" && result.owner == "<?php echo $user_info['id']; ?>") {
+                     
+                       
+                html += '<div class=\"row\">';
+                html += '<div class=\"col-xs-2\">';
+                html += '<a><img src=\" '+ '<?php echo $_SESSION['url_placeholder'];  ?>' + result.image +'  \" class=\"chat-left-1\"  /></a>';
+                html += '</div>';
+                html += '<div class=\"col-xs-10\">';
+                html += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
+                html += '<div class=\"talktext\">';
+                html += '<p>' + result.username + '</p>';
+                html += '<p>'  + result.message + '</p><span><img style=\" height: 15px; width: 15px; \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png' + '\" /></span>';
+                html += ' </div></div></div></div>';  
+                     
+                 }
+                 
+                 
+                 
+                if (result.type == "chat" && result.owner != "<?php echo $user_info['id']; ?>") {
                     
                     
-                   // If the row's id is odd.  
-                } else {
                    html += '<div class=\"row\">';
                    html += '<div class=\"col-xs-10\">';
                    html += '<div class=\"talk-bubble1 tri-right1 left-top1\" class=\"chat-right-1\">';
@@ -984,7 +1022,15 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
                    html += '<a><img src=\" ' +  '<?php echo $_SESSION['url_placeholder'];  ?>' + result.image  +' \" class=\"chat-right-2\"  /></a>';
                    html += '</div>';
                    html += '</div>';
-                }
+                    
+                     
+                       
+               
+                     
+                 }
+                 
+                 
+                 
              }
              // If lastTimeIDzeroTest is 1, implying the lastTimeID is zero...
              if ( lastTimeIDzeroTest === 1 ) {
@@ -1039,19 +1085,43 @@ var flag;
                 firstTimeID = result2.id;
                  
                  
-                 if(result2.type == 'attach') {
+                 
+                 if(result2.type == 'attach' && result2.owner == "<?php echo $user_info['id']; ?>") {
                      
                    html2 += '<div class=\"row\">';
                 html2 += '<div class=\"col-xs-2\">';
-                html2 += '<a><img src=\"\" class=\"chat-left-1\"  /></a>';
+                html2 += '<a><img src=\" '+ '<?php echo $_SESSION['url_placeholder'];  ?>' + result2.image  +' \" class=\"chat-left-1\"  /></a>';
                 html2 += '</div>';
                 html2 += '<div class=\"col-xs-10\">';
                 html2 += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
                 html2 += '<div class=\"talktext\">';
-                html2 += '<p>' + result2.id + ' ( ' +  firstTimeID + ' ) <a href=\" ' + result2.attach_path  + ' \" download>' + result2.attach_name + '</a></p>';
+                html2 += '<p>' + result2.username + '</p>';
+                html2 += '<p><a href=\" ' + result2.path  + ' \" download>' + result2.name + '</a></p>';
                 html2 += ' </div></div></div></div>';    
                      
-                 }  else {
+                 }  
+                 
+                 
+                 
+                    if(result2.type == 'attach' && result2.owner != "<?php echo $user_info['id']; ?>") {
+         
+                   html2 += '<div class=\"row\">';
+                   html2 += '<div class=\"col-xs-10\">';
+                   html2 += '<div class=\"talk-bubble1 tri-right1 left-top1\" class=\"chat-right-1\">';
+                   html2 += '<div class=\"talktext1\">';
+                   html2 += '<p>' + result2.username + '</p>';
+                   html2 += '<p><a href=\" ' + result2.path  + ' \" download>' + result2.name + '</a></p>';
+                   html2 += ' </div></div></div>';
+                   html2 += '<div class=\"col-xs-2\">';
+                   html2 += '<a><img src=\" ' +  '<?php echo $_SESSION['url_placeholder'];  ?>' + result2.image  +' \" class=\"chat-right-2\"  /></a>';
+                   html2 += '</div>';
+                   html2 += '</div>';
+                    
+                 }
+                 
+                 
+                 
+                 if (result2.type == "chat" && result2.owner == "<?php echo $user_info['id']; ?>") {
                      
                        
                 html2 += '<div class=\"row\">';
@@ -1062,10 +1132,38 @@ var flag;
                 html2 += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
                 html2 += '<div class=\"talktext\">';
                 html2 += '<p>' + result2.username + '</p>';
-                html2 += '<p>' + result2.id + ' ( ' +  firstTimeID + ' ) ' + result2.message + '</p>';
+                html2 += '<p>'  + result2.message + '</p><span><img style=\" height: 15px; width: 15px; \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png' + '\" /></span>';
                 html2 += ' </div></div></div></div>';  
                      
                  }
+                 
+                 
+                 
+                if (result2.type == "chat" && result2.owner != "<?php echo $user_info['id']; ?>") {
+                    
+                    
+                   html2 += '<div class=\"row\">';
+                   html2 += '<div class=\"col-xs-10\">';
+                   html2 += '<div class=\"talk-bubble1 tri-right1 left-top1\" class=\"chat-right-1\">';
+                   html2 += '<div class=\"talktext1\">';
+                   html2 += '<p>' + result2.username + '</p>';
+                   html2 += '<p>' + result2.message + '</p>';
+                   html2 += ' </div></div></div>';
+                   html2 += '<div class=\"col-xs-2\">';
+                   html2 += '<a><img src=\" ' +  '<?php echo $_SESSION['url_placeholder'];  ?>' + result2.image  +' \" class=\"chat-right-2\"  /></a>';
+                   html2 += '</div>';
+                   html2 += '</div>';
+                    
+                     
+                       
+               
+                     
+                 }
+                 
+                 
+                 
+                 
+                 
                  
                  
              
@@ -1228,7 +1326,8 @@ var flag;
                 "path": path333,
                  "name": name333,
                  "type": type333,
-                 "posttype": posttype333
+                 "posttype": posttype333,
+                 "group": page_group_id
              },
              success: function( datas ) {
                       alert(datas);
@@ -1416,12 +1515,13 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
             var html3 = '';
           html3 += '<div class=\"row\">';
           html3 += '<div class=\"col-xs-2\">';
-          html3 += '<a><img src=\"\" class=\"chat-left-1\"  /></a>';
+          html3 += '<a><img src=\" '+  '<?php echo $_SESSION['url_placeholder'] . $user_info['img_path'];  ?>' +' \" class=\"chat-left-1\"  /></a>';
           html3 += '</div>';
           html3 += '<div class=\"col-xs-10\">';
           html3 += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
           html3 += '<div class=\"talktext\">';
-          html3 += '<p>bubu uploaded '  + attach_name2 + '</p><span id=\"' + lam + '\" ></span>';
+          html3 += '<p> ' + '<?php echo $user_info['username']; ?>' + '</p>';
+          html3 += '<p><a href=\" ' + attach_path2  + ' \" download>' + attach_name2 + '</a></p>';
           html3 += ' </div></div></div></div>';
             
             var new_items1 = $( html3 ).hide();

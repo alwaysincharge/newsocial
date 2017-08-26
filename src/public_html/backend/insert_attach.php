@@ -15,11 +15,13 @@ if(isset($_POST['insert_attach']))  {
     
     $posttype = $_POST['posttype'];
     
+    $group = $_POST['group'];
+    
     
 }
         
         
-    $posts->insert_attach($path, $name, $type, $posttype);   
+    $posts->insert_attach($path, $name, $type, $posttype, $group, $_SESSION['admin_id']);   
          
     echo 1;
          
