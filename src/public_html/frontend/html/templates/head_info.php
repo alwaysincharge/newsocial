@@ -18,6 +18,8 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet" type="text/css">
 
+	<link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet" type="text/css">
+
     <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet" type="text/css">
 
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Inconsolata" />

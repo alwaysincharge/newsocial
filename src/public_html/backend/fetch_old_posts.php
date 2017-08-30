@@ -15,11 +15,11 @@ if(isset($_POST['fetchold']))  {
     
       if ($_POST['offset'] == 0) {
           
-          $old_posts = $posts->get_first_few_posts();
+          $old_posts = $posts->get_first_few_posts($_POST['group']);
           
       } else {
           
-          $old_posts = $posts->get_next_few_posts($_POST['offset']);
+          $old_posts = $posts->get_next_few_posts($_POST['offset'], $_POST['group']);
           
       }
     

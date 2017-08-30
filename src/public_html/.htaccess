@@ -33,7 +33,9 @@ RewriteRule ^link_prepare backend/link_prepare.php [NC,L]
 
 RewriteRule ^link_preview backend/link_preview.php [NC,L]
 
+RewriteRule ^delete_post backend/delete_post.php [NC,L]
 
+RewriteRule ^search_posts backend/search_posts.php [NC,L]
 
 
 

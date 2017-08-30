@@ -80,7 +80,7 @@ $user_info = $user_details_result->fetch_assoc();
             <div style="float: right;">
             
             
-            <input maxlength="100" name="keywords" class="search-main" placeholder="Search this group" />
+            <input id="myTextBox" maxlength="100" name="keywords" class="search-main" placeholder="Search this group" />
                 
             
             
@@ -88,10 +88,8 @@ $user_info = $user_details_result->fetch_assoc();
             <a href="<?php echo $_SESSION['url_placeholder'];  ?>newgroup">
                 
             <button class="btn new-group-1">   
-                
-            <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/pencil.png" width="20" height="20" class="new-group-2"  />
                     
-            Create new group</button>
+            Create group</button>
             
             </a>
             
@@ -212,7 +210,7 @@ $user_info = $user_details_result->fetch_assoc();
                     
                 </div>
             
-            <img src="" width="35" height="35" class="current-user-img"  />
+            <img src="<?php echo $_SESSION['url_placeholder'];  ?><?php echo $user_info['img_path'];  ?>" width="35" height="35" class="current-user-img"  />
             
             
             </div>
@@ -277,6 +275,16 @@ $user_info = $user_details_result->fetch_assoc();
                 <div class="col-xs-11">
                     
                     
+                    
+                    <div id="content-div">
+                    
+                    
+                    
+                        
+                        
+                        
+                        
+                           
                     <div class="row post-editor">
                         
                     
@@ -360,7 +368,7 @@ $user_info = $user_details_result->fetch_assoc();
                     
                    <div id="chatbox" style="display: none;">
                     
-                        <textarea id="name" type="text" class="search-main" placeholder="write something" style="margin-bottom: 10px; width: 100%; height: 50px; resize: none; outline: none;"></textarea>
+                        <textarea id="text" type="text" class="search-main" placeholder="write something" style="margin-bottom: 10px; width: 100%; height: 50px; resize: none; outline: none;"></textarea>
                        
                        
                        
@@ -419,7 +427,7 @@ $user_info = $user_details_result->fetch_assoc();
                     
                     
                     
-                    <div id="areas2" style="margin-top: 40px;">
+                    <div id="postsdiv" style="margin-top: 40px;">
                                                 
                                    
                         <!-- Posts go here. -->                        
@@ -427,6 +435,35 @@ $user_info = $user_details_result->fetch_assoc();
                         
                     </div>
                 
+                        
+                        
+                        
+                        
+                        
+                    
+                    </div>
+                    
+                 
+                    
+                    <div id="search-div" style="display: none;">
+                    
+                    
+                        <div class="row post-editor">
+                            <p style="display: table; margin: 0 auto; margin-top: 16px; font-weight: bold; font-size: 16px;font-family: Josefin Slab;">Searching for the term...</p>
+                            
+                            
+                    <div id="areas3" style="margin-top: 40px;">
+                                                
+                                   
+                        <!-- Posts go here. -->                        
+            
+                        
+                    </div>
+                            
+                            
+                        </div>
+                        
+                    </div>
                     
                     
                 </div>
@@ -685,9 +722,165 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
 
 
 <script type="text/javascript">
-    
-    
+
     page_group_id = "<?php echo $_GET['group'];  ?>";
+    
+    
+    
+    $("#myTextBox").on("input", function() {
+        
+        if ( $(this).val().trim().length != 0 ) {
+            
+         //  alert("Change to " + this.value); 
+            
+            $("#content-div").hide(600);
+            
+            $("#search-div").show(500);
+            
+            search_posts($(this).val());
+            
+        } else {
+            
+            $("#content-div").show(600);
+            
+            $("#search-div").hide(500);
+            
+        }
+        
+    
+});
+    
+    
+    
+    
+    function search_posts(term) {
+        
+        search_posts_url = "<?php echo $_SESSION['url_placeholder'];  ?>search_posts";
+        
+       $.ajax( {
+          url: search_posts_url,
+          type: "POST",
+          async: true,
+          data: {
+              
+             "term": term,
+              "search": 1,
+              "group": page_group_id
+              
+          },
+          success: function( d ) {
+              
+          //   alert(d);
+             var jsonSearch = JSON.parse( d );
+             var jsonSearchLength = jsonSearch.new_search.length;
+             var htmlSearch = "";
+             
+             //If lastTimeID is zero.
+           
+             for ( var search_i = 0; search_i < jsonSearchLength; search_i++ ) {
+                var resultSearch = jsonSearch.new_search[ search_i ];
+                // For each row from the database, set the last processed id number to lastTimeID.
+                
+                // If the row's id is even.
+
+                 
+                 if(resultSearch.type == 'attach' && resultSearch.owner == "<?php echo $user_info['id']; ?>") {
+                     
+                   htmlSearch += '<div class=\"row\">';
+                htmlSearch += '<div class=\"col-xs-2\">';
+                htmlSearch += '<a><img src=\" '+ '<?php echo $_SESSION['url_placeholder'];  ?>' + resultSearch.image  +' \" class=\"chat-left-1\"  /></a>';
+                htmlSearch += '</div>';
+                htmlSearch += '<div class=\"col-xs-10\">';
+                htmlSearch += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
+                htmlSearch += '<div class=\"talktext\">';
+                htmlSearch += '<p>' + resultSearch.username + '</p>';
+                htmlSearch += '<p><a href=\" ' + resultSearch.path  + ' \" download>' + resultSearch.name + '</a></p>';
+                htmlSearch += ' </div></div></div></div>';    
+                     
+                 }  
+                 
+                 
+                 
+                    if(resultSearch.type == 'attach' && resultSearch.owner != "<?php echo $user_info['id']; ?>") {
+         
+                   htmlSearch += '<div class=\"row\">';
+                   htmlSearch += '<div class=\"col-xs-10\">';
+                   htmlSearch += '<div class=\"talk-bubble1 tri-right1 left-top1\" class=\"chat-right-1\">';
+                   htmlSearch += '<div class=\"talktext1\">';
+                   htmlSearch += '<p>' + resultSearch.username + '</p>';
+                   htmlSearch += '<p><a href=\" ' + resultSearch.path  + ' \" download>' + resultSearch.name + '</a></p>';
+                   htmlSearch += ' </div></div></div>';
+                   htmlSearch += '<div class=\"col-xs-2\">';
+                   htmlSearch += '<a><img src=\" ' +  '<?php echo $_SESSION['url_placeholder'];  ?>' + resultSearch.image  +' \" class=\"chat-right-2\"  /></a>';
+                   htmlSearch += '</div>';
+                   htmlSearch += '</div>';
+                    
+                 }
+                 
+                 
+                 
+                 if (resultSearch.type == "chat" && resultSearch.owner == "<?php echo $user_info['id']; ?>") {
+                     
+                       
+                htmlSearch += '<div class=\"row\">';
+                htmlSearch += '<div class=\"col-xs-2\">';
+                htmlSearch += '<a><img src=\" '+ '<?php echo $_SESSION['url_placeholder'];  ?>' + resultSearch.image +'  \" class=\"chat-left-1\"  /></a>';
+                htmlSearch += '</div>';
+                htmlSearch += '<div class=\"col-xs-10\">';
+                htmlSearch += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
+                htmlSearch += '<div class=\"talktext\">';
+                htmlSearch += '<p>' + resultSearch.username + '</p>';
+                htmlSearch += '<p>'  + resultSearch.message + '</p><span><img style=\" height: 15px; width: 15px; \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png' + '\" /></span>';
+                htmlSearch += ' </div></div></div></div>';  
+                     
+                 }
+                 
+                 
+                 
+                if (resultSearch.type == "chat" && resultSearch.owner != "<?php echo $user_info['id']; ?>") {
+                    
+                    
+                   htmlSearch += '<div class=\"row\">';
+                   htmlSearch += '<div class=\"col-xs-10\">';
+                   htmlSearch += '<div class=\"talk-bubble1 tri-right1 left-top1\" class=\"chat-right-1\">';
+                   htmlSearch += '<div class=\"talktext1\">';
+                   htmlSearch += '<p>' + resultSearch.username + '</p>';
+                   htmlSearch += '<p>' + resultSearch.message + '</p>';
+                   htmlSearch += ' </div></div></div>';
+                   htmlSearch += '<div class=\"col-xs-2\">';
+                   htmlSearch += '<a><img src=\" ' +  '<?php echo $_SESSION['url_placeholder'];  ?>' + resultSearch.image  +' \" class=\"chat-right-2\"  /></a>';
+                   htmlSearch += '</div>';
+                   htmlSearch += '</div>';
+                    
+                     
+                       
+               
+                     
+                 }
+                 
+                 
+                 
+             }
+         
+                // Return and prepend just parsed json from the database to the page. 
+                var new_items_search = $( htmlSearch ).hide();
+                $( '#areas3' ).html( new_items_search );
+                new_items_search.show( 100 );
+             }, //error after here.
+           error: function( xhr, textStatus, errorThrown ) {
+                $.ajax( this );
+                return;
+             }
+       } );
+        
+    }
+    
+
+    
+    
+    
+    
+    
     
     
        function _(el) {
@@ -848,9 +1041,9 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
     
     
     //When you click the chat box...
-    $( '#name' ).on( "focus", function() {
+    $( '#text' ).on( "focus", function() {
        // When you click eneter...
-       $( '#name' ).keypress( function( e ) {
+       $( '#text' ).keypress( function( e ) {
           if ( e.which == 13 ) {
              // Send message to page before even sending to the database.
              sendAppend( e, "" );
@@ -884,7 +1077,7 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
         
         $('#chatbox').hide(100);
             
-        $('#name').val("");    
+        $('#text').val("");    
   });
     
     
@@ -901,7 +1094,8 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
     
     var lastTimeID = 0;
     var firstTimeID = 0;
-    var lam = "text" + 1;
+    new_post_id_num = 0;
+    new_post_id = "new_post" + new_post_id_num;
     
     
     
@@ -935,11 +1129,13 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
           async: true,
           data: {
              "fetchnew": 1,
-             "offset": lastTimeID
+             "offset": lastTimeID,
+              "group": page_group_id
           },
           success: function( d ) {
               
-              
+             // alert(d);
+            //  alert(lastTimeID);
              var jsonData = JSON.parse( d );
              var jsonLength = jsonData.new_posts.length;
              var html = "";
@@ -1039,7 +1235,7 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
              } else {
                 // Return and prepend just parsed json from the database to the page. 
                 var new_items = $( html ).hide();
-                $( '#areas2' ).prepend( new_items );
+                $( '#postsdiv' ).prepend( new_items );
                 new_items.show( 100 );
              }
              // After the function runs successfully, run the function again after some milliseconds.
@@ -1067,7 +1263,8 @@ var flag;
           async: true,
           data: {
              "fetchold": 1,
-             "offset": firstTimeID
+             "offset": firstTimeID,
+              "group": page_group_id
           },
           success: function( dd ) {
               
@@ -1088,7 +1285,7 @@ var flag;
                  
                  if(result2.type == 'attach' && result2.owner == "<?php echo $user_info['id']; ?>") {
                      
-                   html2 += '<div class=\"row\">';
+                   html2 += '<div id=\"'+ 'old_post' + result2.id +'\" class=\"row\">';
                 html2 += '<div class=\"col-xs-2\">';
                 html2 += '<a><img src=\" '+ '<?php echo $_SESSION['url_placeholder'];  ?>' + result2.image  +' \" class=\"chat-left-1\"  /></a>';
                 html2 += '</div>';
@@ -1096,7 +1293,7 @@ var flag;
                 html2 += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
                 html2 += '<div class=\"talktext\">';
                 html2 += '<p>' + result2.username + '</p>';
-                html2 += '<p><a href=\" ' + result2.path  + ' \" download>' + result2.name + '</a></p>';
+                html2 += '<p><a href=\" ' + result2.path  + ' \" download>' + result2.name + '</a></p><span><img style=\" height: 15px; width: 15px; \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png' + '\" /></span>';
                 html2 += ' </div></div></div></div>';    
                      
                  }  
@@ -1105,7 +1302,7 @@ var flag;
                  
                     if(result2.type == 'attach' && result2.owner != "<?php echo $user_info['id']; ?>") {
          
-                   html2 += '<div class=\"row\">';
+                   html2 += '<div id=\"'+ 'old_post' + result2.id +'\" class=\"row\">';
                    html2 += '<div class=\"col-xs-10\">';
                    html2 += '<div class=\"talk-bubble1 tri-right1 left-top1\" class=\"chat-right-1\">';
                    html2 += '<div class=\"talktext1\">';
@@ -1124,7 +1321,7 @@ var flag;
                  if (result2.type == "chat" && result2.owner == "<?php echo $user_info['id']; ?>") {
                      
                        
-                html2 += '<div class=\"row\">';
+                html2 += '<div id=\"'+ 'old_post' + result2.id +'\" class=\"row\">';
                 html2 += '<div class=\"col-xs-2\">';
                 html2 += '<a><img src=\" '+ '<?php echo $_SESSION['url_placeholder'];  ?>' + result2.image +'  \" class=\"chat-left-1\"  /></a>';
                 html2 += '</div>';
@@ -1132,7 +1329,12 @@ var flag;
                 html2 += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
                 html2 += '<div class=\"talktext\">';
                 html2 += '<p>' + result2.username + '</p>';
-                html2 += '<p>'  + result2.message + '</p><span><img style=\" height: 15px; width: 15px; \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png' + '\" /></span>';
+                html2 += '<p>'  + result2.message + '</p><span><img style=\" height: 12px; width: 12px; \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png' + '\" /></span>';
+                html2 += '<a>Save</a>';
+                html2 += '<a>Delete</a>';
+                html2 += '<a>Are you sure?</a>';
+                html2 += '<a onclick=\"deleteoldpost(' + result2.id + ') \">Yes</a>';
+                html2 += '<a>No</a>';
                 html2 += ' </div></div></div></div>';  
                      
                  }
@@ -1142,7 +1344,7 @@ var flag;
                 if (result2.type == "chat" && result2.owner != "<?php echo $user_info['id']; ?>") {
                     
                     
-                   html2 += '<div class=\"row\">';
+                   html2 += '<div id=\"'+ 'old_post' + result2.id +'\" class=\"row\">';
                    html2 += '<div class=\"col-xs-10\">';
                    html2 += '<div class=\"talk-bubble1 tri-right1 left-top1\" class=\"chat-right-1\">';
                    html2 += '<div class=\"talktext1\">';
@@ -1168,7 +1370,7 @@ var flag;
                  
              
              }
-             $( '#areas2' ).append( html2 );                            
+             $( '#postsdiv' ).append( html2 );                            
                                                               
                                                               
                                                               
@@ -1219,20 +1421,29 @@ var flag;
     
     
     
-    function sendChatData( e, slate, name1 ) {
+    function sendPostData( e, slate, name1, num ) {
         
-       var dosome = function( data ) {
+       var dosome = function( data, post_id_0 ) {
+           
+           
            
            hhhj = "<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png";
-           
-          $( "#" + data ).html('<img style=\" height: 15px; width: 15px; \" src=\" ' + hhhj + '  \" />');
+           html12 = "";
+           html12 ='<img style=\" height: 15px; width: 15px; \" src=\" ' + hhhj + '  \" />';
+                html12 += '<a>Save</a>';
+                html12 += '<a>Delete</a>';
+                html12 += '<a>Are you sure?</a>';
+                html12 += '<a onclick=\"deletenewpost(' +  num + ',' + post_id_0 + ') \">Yes</a>';
+                html12 += '<a>No</a>';
+           alert(data);
+          $( "#" + data ).html(html12);
        };
         
-       var nameTrim = $( "#name" ).val().trim();
+       var nameTrim = $( "#text" ).val().trim();
        // If the value of the chat box is not empty...
        if ( nameTrim != "" ) {
           // After submitting, clear the chat box.
-          $( "#name" ).val( "" );
+          $( "#text" ).val( "" );
           e.preventDefault();
           //Submit the form to the database.
            
@@ -1251,12 +1462,18 @@ var flag;
              success: function( data ) {
                  
                  
+             var jsonNewPost = JSON.parse( data );
+            
+             var statusNewPost =  jsonNewPost[0];
+            
+             var post_id_new_from_json =  jsonNewPost[1];
                  
-                if ( data == 1 ) {
-                   dosome( slate );
+                if ( statusNewPost == 1 ) {
+                   dosome( slate, post_id_new_from_json );
+                    
                 } else {}
                 // After submitting, clear the chat box.
-                $( "#name" ).val( "" );
+                $( "#text" ).val( "" );
                 // When enter is clicked, do not move to the next line.
                 e.preventDefault();
              },
@@ -1266,7 +1483,7 @@ var flag;
              }
           } );
        } else {
-          $( "#name" ).val( "" );
+          $( "#text" ).val( "" );
        }
     }
     
@@ -1305,10 +1522,92 @@ var flag;
     
     
     
-        function sendChatData2( slate, path333, name333, type333, posttype333 ) {
+        
+   function deleteoldpost(post_ui_id) {
+      // alert(post_ui_id);
+       $("#old_post" + post_ui_id).hide(1000);
+       
+       delete_post_url = "<?php  echo $_SESSION['url_placeholder'];  ?>" + "delete_post";
+       
+       $.ajax( {
+             url: delete_post_url,
+             type: "POST",
+             async: true,
+             data: {
+                "deletepost": 1,
+                "post_id": post_ui_id
+             },
+             success: function( data ) {
+            //     alert(data);
+                if ( data == 1 ) {
+                 //   alert(data);
+                 //  $("#group" + group).hide();
+                } 
+             },
+           
+             error: function( xhr, textStatus, errorThrown ) {
+             
+                 
+                 
+             }
+          } ); 
+       
+       
+   } 
+    
+    
+    
+    
+    
+    
+    
+       function deletenewpost(post_ui, post_ui_id) {
+    
+       $("#whole_new_post" + post_ui).hide(500);
+     
+       delete_post_url_new = "<?php  echo $_SESSION['url_placeholder'];  ?>" + "delete_post";
+       
+       $.ajax( {
+             url: delete_post_url_new,
+             type: "POST",
+             async: true,
+             data: {
+                "deletepost": 1,
+                "post_id": post_ui_id
+             },
+             success: function( data ) {
+                 
+                if ( data == 1 ) {
+                 //   alert(data);
+                 //  $("#group" + group).hide();
+                } 
+             },
+           
+             error: function( xhr, textStatus, errorThrown ) {
+             
+                 
+                 
+             }
+          } );  
+       
+       
+   }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        function sendPostDataAttach( slate, path333, name333, type333, posttype333 ) {
         
        var dooo = function( data ) {
-          $( "#" + data ).html('<img style=\" height: 15px; width: 15px; \" src=\"sent.png\" />');
+          $( "#" + data ).html('<img style=\" height: 15px; width: 15px; \" src=\"<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png\" />');
        };
         
 
@@ -1351,7 +1650,7 @@ var flag;
     
     
     
-        function metaLink( data33, lam ) {
+        function metaLink( data33, new_post_id ) {
         
  var dooos1 = function( lam, data56, url, title, desc, img ) {
      
@@ -1376,7 +1675,7 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
      
      
      
-          $( "#" + lam ).html(html45);
+          $( "#" + new_post_id ).html(html45);
        };
             
   
@@ -1406,7 +1705,7 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
                      var metadesc = jsonData16.article['description'];
                      
                    //  alert(metaimage);
-                     dooos1(lam, datasss, metaurl, metatitle, metadesc, metaimage);
+                     dooos1(new_post_id, datasss, metaurl, metatitle, metadesc, metaimage);
                      
                  }
                  
@@ -1432,7 +1731,7 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
     
     
     
-      function previewLink( name, lam ) {
+      function previewLink( text, new_post_id ) {
         
             
   
@@ -1442,13 +1741,13 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
              async: true,
              data: {
                 "preview": 1,
-                 "name": name
+                 "text": text
              },
-             success: function( datass ) {
+             success: function( data ) {
                  
-                 if (datass) {
-                     alert(datass)
-                                   metaLink(datass, lam);
+                 if (data) {
+                     
+                    metaLink(data, new_post_id);
                      
                  }
                  
@@ -1486,93 +1785,81 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
     
     function sendAppend( e, attach ) {
         
-       
-        
-        
-        
-     
-       // If the value of the chat box is not empty...
-        
         
         
         if (attach) {
             
            
+            var jsonChatAppend = JSON.parse( attach );
             
+            var attach_chat_path =  jsonChatAppend[0];
             
-            var jsonData6 = JSON.parse( attach );
+            var attach_chat_name =  jsonChatAppend[1];
             
-            var attach_path2 =  jsonData6[0];
+            var attach_chat_type = jsonChatAppend[2];
             
-            var attach_name2 =  jsonData6[1];
-            
-            var attach_type2 = jsonData6[2];
-            
-            var post_type2 =  jsonData6[3];
+            var post_type_chat =  jsonChatAppend[3];
           
             
             
-            var html3 = '';
-          html3 += '<div class=\"row\">';
-          html3 += '<div class=\"col-xs-2\">';
-          html3 += '<a><img src=\" '+  '<?php echo $_SESSION['url_placeholder'] . $user_info['img_path'];  ?>' +' \" class=\"chat-left-1\"  /></a>';
-          html3 += '</div>';
-          html3 += '<div class=\"col-xs-10\">';
-          html3 += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
-          html3 += '<div class=\"talktext\">';
-          html3 += '<p> ' + '<?php echo $user_info['username']; ?>' + '</p>';
-          html3 += '<p><a href=\" ' + attach_path2  + ' \" download>' + attach_name2 + '</a></p>';
-          html3 += ' </div></div></div></div>';
+            var new_chat_html = '';
+            new_chat_html += '<div id=\"'+ 'whole_' + new_post_id +'\" class=\"row\">';
+            new_chat_html += '<div class=\"col-xs-2\">';
+            new_chat_html += '<a><img src=\" '+  '<?php echo $_SESSION['url_placeholder'] . $user_info['img_path'];  ?>' +' \" class=\"chat-left-1\"  /></a>';
+            new_chat_html += '</div>';
+            new_chat_html += '<div class=\"col-xs-10\">';
+            new_chat_html += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
+            new_chat_html += '<div class=\"talktext\">';
+            new_chat_html += '<p class=\"text-username\"> ' + '<?php echo $user_info['username']; ?>' + '</p>';
+            new_chat_html += '<p class=\"text-body\"><a href=\" ' + attach_chat_path  + ' \" download>' + attach_chat_name + '</a></p><span id=\"' + new_post_id + '\" ></span>';
+            new_chat_html += ' </div></div></div></div>';
             
-            var new_items1 = $( html3 ).hide();
-          $( '#areas2' ).prepend( new_items1 );
-          new_items1.show( 'fast' );
-          sendChatData2( lam, attach_path2, attach_name2, attach_type2, post_type2 );
-          lam = lam + 1;
+            var new_items_chat = $( new_chat_html ).hide();
+            $( '#postsdiv' ).prepend( new_items_chat );
+            new_items_chat.show( 'fast' );
+            sendPostDataAttach( new_post_id, attach_chat_path, attach_chat_name, attach_chat_type, post_type_chat );
+            
+            new_post_id_num = new_post_id_num + 1;
+            new_post_id = "new_post" + new_post_id_num;
             
         } else {
             
-              var name = $( "#name" ).val();
-       var nameTrim = $( "#name" ).val().trim();
-            if ( nameTrim != "" ) {
-          var html3 = '';
-          html3 += '<div class=\"row\">';
-          html3 += '<div class=\"col-xs-2\">';
-          html3 += '<a><img src=\" '+  '<?php echo $_SESSION['url_placeholder'] . $user_info['img_path'];  ?>' +' \" class=\"chat-left-1\"  /></a>';
-          html3 += '</div>';
-          html3 += '<div class=\"col-xs-10\">';
-          html3 += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
-          html3 += '<div class=\"talktext\">';
-          html3 += '<p>' + '<?php echo $user_info['username'];  ?>' + '</p>';        
-          html3 += '<p>' + name + '</p><span id=\"' + lam + '\" ></span>';
-          html3 += ' </div></div></div></div>';
-          // Return and prepend just parsed json from the database to the page. 
+            
+          var text = $( "#text" ).val();
+          var textTrim = $( "#text" ).val().trim();
+            
+      if ( textTrim != "" ) {
+          
+          var new_chat_html = '';
+          new_chat_html += '<div id=\"'+ 'whole_' + new_post_id +'\" class=\"row\">';
+          new_chat_html += '<div class=\"col-xs-2\">';
+          new_chat_html += '<a><img src=\" '+  '<?php echo $_SESSION['url_placeholder'] . $user_info['img_path'];  ?>' +' \" class=\"chat-left-1\"  /></a>';
+          new_chat_html += '</div>';
+          new_chat_html += '<div class=\"col-xs-10\">';
+          new_chat_html += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
+          new_chat_html += '<div class=\"talktext\">';
+          new_chat_html += '<p class=\"text-username\">' + '<?php echo $user_info['username'];  ?>' + '</p>';        
+          new_chat_html += '<p class=\"text-body\">' + text + '</p><span id=\"' + new_post_id + '\" ></span>';
+          new_chat_html += ' </div></div></div></div>';
                 
                 
                 
-                var new_items1 = $( html3 ).hide();
-          $( '#areas2' ).prepend( new_items1 );
-          new_items1.show( 100 );
+          var new_items_chat = $( new_chat_html ).hide();
+          $( '#postsdiv' ).prepend( new_items_chat );
+          new_items_chat.show( 100 );
                 
-                previewLink(name, lam);
+          previewLink(name, new_post_id);
+         
+          sendPostData( e, new_post_id, text,  new_post_id_num);
                 
                 
-          sendChatData( e, lam, name );
-          lam = lam + 1;
+          new_post_id_num = new_post_id_num + 1;
+          new_post_id = "new_post" + new_post_id_num;
        
        }
-            
-            
-            
-               
-            
-            
-        }
-        
-     
-        
-        
-     
     }
+        
+     
+}
     
 </script>   

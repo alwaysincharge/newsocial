@@ -92,7 +92,7 @@ if (isset($_POST['register']))  {
         
         (strlen(trim($_POST['password1'])) < 6) ||
         
-        (strlen(trim($_POST['email'])) > 345) )
+        (strlen(trim($_POST['email'])) > 400) )
         
         {
         
@@ -145,7 +145,7 @@ if (isset($_POST['register']))  {
      
        $user->create_user($user_input, $password_input, $email_input);
      
-       $last_id = $database->connection->insert_id;
+       $last_id = mysqli_insert_id($database->connection);
      
        $_SESSION['admin_id'] = $last_id;
      
@@ -185,11 +185,20 @@ if (isset($_POST['register']))  {
      
        $_SESSION['admin_id'] = $last_id;
      
-       $register_array = array("status"=> 1, "id"=> $last_id, "urlplaceholder"=> $_SESSION['url_placeholder']);     
-    
+       $register_array = array("status"=> 1, "id"=> $last_id, "urlplaceholder"=> $_SESSION['url_placeholder']); 
+     
+     
+     
+     if ($last_id)  {
+         
        echo json_encode(array_values($register_array));
      
-       exit();
+       exit();  
+         
+     }
+     
+     
+
 
 }  else {
     

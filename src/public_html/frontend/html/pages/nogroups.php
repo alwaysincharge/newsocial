@@ -41,6 +41,20 @@ $numRows = $get_all_groups_of_user_result->num_rows;
 
 
 
+
+<?php
+
+$user_details = $user->find_one_user($_SESSION['admin_id']);
+
+$user_details_result = $user_details->get_result();
+
+$user_info = $user_details_result->fetch_assoc();
+
+
+?>
+
+
+
 <html lang="en">
     
     
@@ -87,20 +101,18 @@ $numRows = $get_all_groups_of_user_result->num_rows;
             <div style="float: right;">
             
                         
-            <a href="<?php echo $_SESSION['url_placeholder'];  ?>newgroup">
+            <a class="btn-link-1" href="<?php echo $_SESSION['url_placeholder'];  ?>newgroup">
                 
             <button class="btn new-group-1">   
-                
-            <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/pencil.png" width="20" height="20" class="new-group-2"  />
                     
-            Create new group</button>
+            Create group</button>
             
             </a>
             
             
             
             
-            <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/nopic.png" width="35" height="35" class="current-user-img"  />
+            <img src="<?php echo $_SESSION['url_placeholder'];  ?><?php echo $user_info['img_path'];  ?>" width="35" height="35" class="current-user-img"  />
             
             
             
@@ -137,7 +149,7 @@ $numRows = $get_all_groups_of_user_result->num_rows;
                 <div>
                     
                      
-                    <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/nopic.png" width="70" height="70" class="writer-profile-img"  />
+                    <img src="<?php echo $_SESSION['url_placeholder'];  ?><?php echo $user_info['img_path'];  ?>" width="70" height="70" class="writer-profile-img"  />
                     
                    
                     
@@ -160,24 +172,22 @@ $numRows = $get_all_groups_of_user_result->num_rows;
                         
                         <p class="nogroups-text">You are currently part of no groups.</p>
                         
-                        <p class="nogroups-text">Create a new group and add people you know.</p>
+                        <p class="nogroups-text">Create a new group to talk to your family, friends, work, etc.</p>
+                                
+                        <p class="nogroups-text">Or ask people you know to add you to their groups. Your username is <b><?php echo $user_info['username'];  ?></b></p>  
                             
                             
-                            
-                            
-                        <a href="<?php echo $_SESSION['url_placeholder'];  ?>newgroup">
+                        <a  class="btn-link-1" href="<?php echo $_SESSION['url_placeholder'];  ?>newgroup">
                 
                         <button class="btn new-group-1">   
-                
-                        <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/pencil.png" width="20" height="20" class="new-group-2"  />
                     
-                        Create new group</button>
+                        Create group</button>
             
                         </a><br><br>
                             
                             
                             
-                        <p class="nogroups-text">Or ask people you know to add you to their groups.</p>
+                        
                             
                         </div>
                         

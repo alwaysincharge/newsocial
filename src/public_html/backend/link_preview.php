@@ -1,7 +1,7 @@
 <?php
 
 
-$string = $_POST['name'];
+$string = $_POST['text'];
 
 $url = "/(http\:\/\/|https\:\/\/|ftp\:\/\/|ftps\:\/\/|www\.)[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
 

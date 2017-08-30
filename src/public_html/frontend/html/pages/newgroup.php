@@ -5,6 +5,18 @@
 
 
 
+<?php
+
+$user_details = $user->find_one_user($_SESSION['admin_id']);
+
+$user_details_result = $user_details->get_result();
+
+$user_info = $user_details_result->fetch_assoc();
+
+
+?>
+
+
 <html lang="en">
     
     
@@ -54,17 +66,15 @@
             <a>
                 
             <button class="btn new-group-1">   
-                
-            <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/pencil.png" width="20" height="20" class="new-group-2"  />
                     
-            Create new group</button>
+            Create group</button>
             
             </a>
             
             
             
             
-            <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/nopic.png" width="35" height="35" class="current-user-img"  />
+            <img src="<?php echo $_SESSION['url_placeholder'];  ?><?php echo $user_info['img_path'];  ?>" width="35" height="35" class="current-user-img"  />
             
             
             
@@ -101,7 +111,7 @@
                 <div>
                     
                      
-                    <img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/nopic.png" width="70" height="70" class="writer-profile-img"  />
+                    <img src="<?php echo $_SESSION['url_placeholder'];  ?><?php echo $user_info['img_path'];  ?>" width="70" height="70" class="writer-profile-img"  />
                     
                    
                     
@@ -126,10 +136,10 @@
                         <p class="newgroups-text">Create a new group</p>
                             
                             
-                        <input id="groupname" class="newgroup-field-1" type="text" placeholder="group name">
+                        <input id="groupname" class="newgroup-field-1" maxlength="60" type="text" placeholder="group name">
         
         
-                        <textarea id="groupdesc" class="newgroup-field-2" type="password" placeholder="group description"></textarea><br><br>
+                        <textarea id="groupdesc" class="newgroup-field-2" maxlength="140" type="password" placeholder="group description"></textarea><br><br>
         
 
                             
@@ -314,321 +324,195 @@
 
 <script type="text/javascript">
     
- 
-    
-var url_placeholder = "/newsocial/src/public_html/"; 
+ var url_placeholder = "<?php echo $_SESSION['url_placeholder']; ?>";
+ // When user clicks the login button...
+ $( "#groupsubmit" )
+         .on( "click", function() {
+                 groupname = $( "#groupname" )
+                         .val();
+                 groupdesc = $( "#groupdesc" )
+                         .val();
+                 if ( ( groupname.trim()
+                                 .length != 0 ) && ( groupdesc.trim()
+                                 .length != 0 ) ) {
+                         var both_fields_filled = true;
+                 } else {
+                         var both_fields_filled = false;
+                         $( "#grouperror" )
+                                 .hide( 0 );
+                         $( "#grouperror" )
+                                 .show( 300 );
+                         $( "#grouperror" )
+                                 .html( "None of the fields can be left blank." );
+                 }
+                 if ( both_fields_filled ) {
+                         if ( ( groupname.length > 60 ) || ( groupdesc.length > 140 ) ) {
+                                 var both_length_check = false;
+                                 $( "#grouperror" )
+                                         .hide( 0 );
+                                 $( "#grouperror" )
+                                         .show( 300 );
+                                 $( "#grouperror" )
+                                         .html( "Group name cannot exceed 60 characters. Description cannot exceed 140." );
+                         } else {
+                                 var both_length_check = true;
+                         }
+                 }
+                 if ( both_fields_filled && both_length_check ) {
+                         group_text_ready = true;
+                 } else {
+                         group_text_ready = false;
+                 }
+                 if ( group_text_ready ) {
+                         get_text_img();
+                 }
+         } );
 
-  
-    
-    
-// When user clicks the login button...
-$("#groupsubmit").on("click", function(){
-      
-    
-        
-     groupname = $("#groupname").val();
-    
-     groupdesc = $("#groupdesc").val();
-    
-    
-    
-    
-    if ((groupname.trim().length != 0) && (groupdesc.trim().length != 0)) {
-        
-        var both_fields_filled = true;
-        
-    } else {
-        
-        $("#grouperror").hide(0);    
-        
-        $("#grouperror").show(300);
-        
-        $("#grouperror").html("None of the fields can be left blank.");
-        
-    }
-    
-    
-    
-    
-    if (both_fields_filled) {
+ function _( el ) {
+         return document.getElementById( el );
+ }
+ $( '#groupimg' )
+         .change( function() {
+                 uploadFile();
+         } );
 
-        if ( (groupname.length > 60)  ||  (groupdesc.length > 140) ) {
-        
-            
-        $("#grouperror").hide(0);    
-        
-        $("#grouperror").show(300);
-        
-        $("#grouperror").html("Group name cannot exceed 60 characters. Description cannot exceed 140.");
-            
-        
-        } else {
-            
-            var both_length_check = true;
-            
-        }
-    
-    }
-    
-    
-    
+ function uploadFile() {
+         file = _( 'groupimg' )
+                 .files[ 0 ];
+         if ( file.size <= 1000000 ) {
+                 file_size_validation = true;
+         } else {
+                 file_size_validation = false;
+                 $( "#groupnotif" )
+                         .html( file.name + " is bigger than 1MB. Try again." );
+         }
+         if ( file_size_validation ) {
+                 if ( ( file.type == "image/jpeg" ) || ( file.type == "image/jpg" ) || ( file.type == "image/png" ) || ( file.type == "image/gif" ) ) {
+                         file_type_validation = true;
+                 } else {
+                         file_type_validation = false;
+                         $( "#groupnotif" )
+                                 .html( "Your file has to be an image of type jpeg, jpg, png or gif." );
+                 }
+         }
+         if ( file_type_validation && file_size_validation ) {
+                 send_image();
+         }
 
-    
-    
-    
-    
-    
-        if (both_fields_filled && both_length_check) {
-        
-         group_text_ready = true;
-            // login_function(username, password1);
+         function send_image() {
+                 var formdata = new FormData();
+                 formdata.append( 'groupimg', file );
+                 var ajax = new XMLHttpRequest();
+                 ajax.upload.addEventListener( "progress", progressHandler, false );
+                 ajax.addEventListener( "load", completeHandler, false );
+                 ajax.addEventListener( "abort", abortHandler, false );
+                 ajax.open( "POST", url_placeholder + 'backend/newgroupimg.php' );
+                 ajax.send( formdata );
+         }
 
-        }
-    
-    
-    
-    
-    if (group_text_ready) {
-        
-                    get_text_img();
-        
-        
-    }
-    
-    
-    
-    
-    
+         function progressHandler( event ) {
+                 var percent = ( event.loaded / event.total ) * 100;
+                 $( "#groupnotif" )
+                         .html( "Uploading  your file (" + Math.round( percent ) + "%)" );
+         }
 
-    
-    
-    
+         function completeHandler( event ) {
+                 result = event.target.responseText;
+                 if ( result.trim() === "1" ) {
+                         $( "#groupnotif" )
+                                 .html( "You have to upload an image." );
+                 } else if ( result.trim() === "2" ) {
+                         $( "#groupnotif" )
+                                 .html( "Your image can only be jpg, png, jpeg or gif." );
+                 } else if ( result.trim() === "3" ) {
+                         $( "#groupnotif" )
+                                 .html( "Your file must be an image." );
+                 } else {
+                         jsonGroup = JSON.parse( result );
+                         group_status = jsonGroup[ 0 ];
+                         group_pic_path = jsonGroup[ 1 ];
+                         group_pic_name = jsonGroup[ 2 ];
+                         group_pic_type = jsonGroup[ 3 ];
+                         if ( group_status === 1 ) {
+                                 group_picture_ready = true;
+                                 $( "#groupnotif" )
+                                         .html( file.name + " has successfully loaded." );
+                                 $( "#grouperror" )
+                                         .hide( 0 );
+                         } else {
+                                 group_picture_ready = false;
+                                 $( "#groupnotif" )
+                                         .html( "There is an unexplaind error. Please try again." );
+                         }
+                 }
+         }
 
+         function errorHandler( event ) {
+                 $( "#groupnotif" )
+                         .html( "Upload fail. Please try again." );
+         }
 
-    
-    
-});
-    
-    
-    
-     
-    
-function _(el) {
-            
-   return document.getElementById(el);
-            
-}
-       
-    
-    
-    
-  
-$('#groupimg').change(function() { 
+         function abortHandler( event ) {
+                 $( "#groupnotif" )
+                         .html( "Upload aborted. Please try again." );
+         }
+ }
 
-    uploadFile();
-    
-});
-    
-    
-    
-    
-    
-  
-    
-function uploadFile() { 
-        
-        
-         file = _('groupimg').files[0];
-        
-     //   1000000
-        if (file.size <= 10000000000000000000) {
-
-            
-             var formdata = new FormData();
-        
-             formdata.append('groupimg', file);
-        
-             var ajax = new XMLHttpRequest();
-        
-             ajax.upload.addEventListener("progress", progressHandler, false);
-        
-             ajax.addEventListener("load", completeHandler, false);
-        
-             ajax.addEventListener("abort", abortHandler, false);
-        
-             ajax.open("POST", url_placeholder + 'backend/newgroupimg.php');
-        
-             ajax.send(formdata);
-        
-        } else {
-            
-
-            $("#groupnotif").html(file.name + " is bigger than 1MB. Try again.");
-            
-        }
-    
-        
-        function progressHandler(event) {
-            
-            
-            var percent = (event.loaded / event.total) * 100;
-            
-            $("#groupnotif").html("Uploading " + file.name + " <span style=\" color: red; \">" + Math.round(percent) + "%</span>");
-            
-        }
-        
-        
-        
-        function completeHandler(event) {
-
-            
-            result = event.target.responseText;
-            
-            
-            alert(result);
-            
-            if (result.trim() === "1") {
-
-                $("#groupnotif").html("You have to upload an image.");
-        
-            
-            } else if (result.trim() === "2")  {
-                
-                $("#groupnotif").html("Your image can only be jpg, png, jpeg or gif.");
-                
-                
-            } else if (result.trim() === "3")  {
-                
-                
-                $("#groupnotif").html("Your file must be an image.");
-                
-                
-            } else {
-                
-                
-                     jsonGroup = JSON.parse( result );
-            
-                     group_status =  jsonGroup[0];
-                
-                     group_pic_path = jsonGroup[1];
-                
-                     group_pic_name = jsonGroup[2];
-                
-                     group_pic_type = jsonGroup[3];
-                
-                
-                    if (group_status === 1) {
-                        
-                         group_picture_ready = true;
-                        
-                         set_progress_message();
-                        
-                         $("#groupnotif").html(file.name + " has successfully loaded.");
-                        
-                    } else {
-                        
-                        
-                    $("#groupnotif").html("There is an unexplaind error. Please try again.");
-                        
-                    }
-                
-                
-                
-            }
-            
-            
-            
-            
-
-        }
-        
-        
-        
-        function errorHandler(event) {
-            
-            
-            $("#groupnotif").html("Upload fail. Please try again.");
-            
-            
-            
-        }
-        
-        
-        
-        
-        function abortHandler(event) {
-            
-              $("#groupnotif").html("Upload aborted. Please try again.");
-            
-            
-        }
-        
-        
-        
-
-        
-        
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
  function get_text_img() {
-     
-     
-         if (group_text_ready && group_picture_ready) {
-                        
-            send_both_text_and_pic(groupname, groupdesc, group_pic_path, group_pic_name, group_pic_type);
-                      
-        }
-     
- }   
-    
-      
+         $( "#grouperror" )
+                 .hide( 0 );
+         $( "#grouperror" )
+                 .show( 300 );
+         $( "#grouperror" )
+                 .html( "Please upload an image." );
+         if ( group_text_ready && group_picture_ready ) {
+                 send_both_text_and_pic( groupname, groupdesc, group_pic_path, group_pic_name, group_pic_type );
+                 $( "#grouperror" )
+                         .hide( 0 );
+         }
+ }
 
-    
-    
-    
-    
-    
-function send_both_text_and_pic(groupname, groupdesc, group_pic_path, group_pic_name, group_pic_type)  {
-    
-    
-    $.ajax({
-        
-       data: {"groupname": groupname, "groupdesc": groupdesc, "group_pic_path": group_pic_path, "group_pic_name": group_pic_name, "group_pic_type": group_pic_type},
-       dataType: 'text',
-       url: url_placeholder + 'backend/create_group.php',
-       type: "POST"
-        
-    }).done(function(data) {
-        
-        window.location.href = url_placeholder + "nogroups";
-        
-        
-            
-    }).fail(function(jqXHR, textStatus, errorThrown) {
-        
-
-        
-        $("#groupnotif").html("Poor connection. Try again.");
-        
-        
-    });
-    
-    
-    
-    
-    
-    
-}
-
-
+ function send_both_text_and_pic( groupname, groupdesc, group_pic_path, group_pic_name, group_pic_type ) {
+         $.ajax( {
+                         data: {
+                                 "groupname": groupname,
+                                 "groupdesc": groupdesc,
+                                 "group_pic_path": group_pic_path,
+                                 "group_pic_name": group_pic_name,
+                                 "group_pic_type": group_pic_type
+                         },
+                         dataType: 'text',
+                         url: url_placeholder + 'backend/create_group.php',
+                         type: "POST"
+                 } )
+                 .done( function( data ) {
+                         if ( data == 1 ) {
+                                 window.location.href = url_placeholder + "nogroups";
+                         } else if ( data == 5 ) {
+                                 $( "#grouperror" )
+                                         .hide( 0 );
+                                 $( "#grouperror" )
+                                         .show( 300 );
+                                 $( "#grouperror" )
+                                         .html( "No fields can be left empty." );
+                         } else if ( data == 6 ) {
+                                 $( "#grouperror" )
+                                         .hide( 0 );
+                                 $( "#grouperror" )
+                                         .show( 300 );
+                                 $( "#grouperror" )
+                                         .html( "Group name cannot exceed 60 characters. Description cannot exceed 140. File name cannot be too long." );
+                         } else {}
+                 } )
+                 .fail( function( jqXHR, textStatus, errorThrown ) {
+                         $( "#grouperror" )
+                                 .hide( 0 );
+                         $( "#grouperror" )
+                                 .show( 300 );
+                         $( "#grouperror" )
+                                 .html( "Poor connection. Try again." );
+                 } );
+ }
 
 </script>
     

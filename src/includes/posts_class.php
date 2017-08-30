@@ -33,33 +33,19 @@ class Posts {
 
 
     
-       public function get_new_chat($offset_input, $not_owner_input) {
+       public function get_new_chat($offset_input, $not_owner_input, $group_input) {
 
        global $database;
         
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.id > ? AND posts.owner != ? limit 20");
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.id > ? AND posts.owner != ? AND posts.group_id = ? AND posts.owner != 0 AND posts.deleted = 'live' limit 20");
         
-       $stmt->bind_param("ii", $offset, $not_owner);
+       $stmt->bind_param("iii", $offset, $not_owner, $group);
         
        $offset = $offset_input;
         
        $not_owner = $not_owner_input;
-          
-       $stmt->execute();
            
-       return $stmt;    
-
-       }
-    
-    
-
-    
-    
-       public function get_first_few_posts() {
-
-       global $database;
-        
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner order by id desc limit 12");
+       $group = $group_input;
           
        $stmt->execute();
            
@@ -71,12 +57,81 @@ class Posts {
     
     
     
-       public function get_very_last_post() {
+    
+       public function get_new_search($term_input, $group_input) {
 
        global $database;
         
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner order by id desc limit 1");
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where 
+       
+       posts.message like ? AND posts.group_id = ? AND posts.owner != 0 AND posts.deleted = 'live' limit 20 ");
+        
+       $stmt->bind_param("si", $term, $group);
+        
+       $term = $term_input;
+           
+       $group = $group_input;
           
+       $stmt->execute();
+           
+       return $stmt;    
+
+       }
+    
+
+    
+    
+       public function get_test_post($group_input) {
+
+       global $database;
+        
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = 1 where   posts.group_id = ? AND posts.owner = 0 limit 20");
+        
+       $stmt->bind_param("i", $group);
+           
+       $group = $group_input;
+          
+       $stmt->execute();
+           
+       return $stmt;    
+
+       }
+
+    
+    
+
+    
+    
+       public function get_first_few_posts($group_input) {
+
+       global $database;
+        
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where  posts.group_id = ? AND deleted = 'live' order by id desc limit 12");
+           
+       $stmt->bind_param("i", $group);
+          
+       $group = $group_input;
+          
+       $stmt->execute();
+           
+       return $stmt;    
+
+       }
+    
+    
+    
+    
+    
+       public function get_very_last_post($group_input) {
+
+       global $database;
+        
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.group_id = ? order by id desc limit 1");
+           
+       $stmt->bind_param("i", $group);
+          
+       $group = $group_input;
+           
        $stmt->execute();
            
        return $stmt;    
@@ -90,15 +145,40 @@ class Posts {
     
     
     
-       public function get_next_few_posts($offset_input) {
+       public function get_next_few_posts($offset_input, $group_input) {
 
        global $database;
         
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.id < ? order by id desc limit 12");
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.id < ? AND posts.group_id = ? AND deleted = 'live' order by id desc limit 12");
         
-       $stmt->bind_param("i", $offset);
+       $stmt->bind_param("ii", $offset, $group);
         
        $offset = $offset_input;
+           
+       $group = $group_input;
+           
+       $stmt->execute();
+           
+       return $stmt;    
+
+       }
+    
+    
+    
+    
+    
+    
+       public function delete_post_by_id($id_input, $owner_input) {
+
+       global $database;
+        
+       $stmt = $database->connection->prepare("UPDATE posts set deleted = 'deleted' where id = ? and owner = ? limit 1 ");
+        
+       $stmt->bind_param("ii", $id, $owner);
+        
+       $id = $id_input;
+           
+       $owner = $owner_input;
            
        $stmt->execute();
            

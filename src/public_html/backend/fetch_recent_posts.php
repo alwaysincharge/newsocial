@@ -15,11 +15,23 @@ if(isset($_POST['fetchnew']))  {
     
     if ($offset == 0) {
         
-        $new_chat = $posts->get_very_last_post(); 
+        $new_chat_test = $posts->get_very_last_post($_POST['group']); 
+        
+        $new_chat_test_result = $new_chat_test->get_result();
+        
+        if ($new_chat_test_result->num_rows > 0)  {
+            
+            $new_chat = $posts->get_new_chat($offset, $_SESSION['admin_id'], $_POST['group']);
+            
+        } else {
+            
+            $new_chat = $posts->get_test_post($_POST['group']);
+        
+        }
         
     } else {
         
-        $new_chat = $posts->get_new_chat($offset, $_SESSION['admin_id']);
+        $new_chat = $posts->get_new_chat($offset, $_SESSION['admin_id'], $_POST['group']);
         
     }
     

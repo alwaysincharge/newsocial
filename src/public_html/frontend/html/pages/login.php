@@ -30,20 +30,20 @@
     <p class="login-logo">friday camp.</p>
     
     
-    <p class="login-sub-1">Talk to people (you already know)</p>
+    <p class="login-sub-1">Talk to people, you already know.</p>
         
         
         
-        <input id="username" class="login-field-1" type="text" placeholder="username">
+        <input id="username" maxlength="16" class="login-field-1" type="text" placeholder="username">
         
         
-        <input id="password1" class="login-field-1" type="password" placeholder="password">
+        <input id="password1" maxlength="16" class="login-field-1" type="password" placeholder="password">
         
         
-        <input id="password2" class="login-field-1" type="password" style="display: none;" placeholder="repeat password"> 
+        <input id="password2" maxlength="16" class="login-field-1" type="password" style="display: none;" placeholder="repeat password"> 
         
         
-        <input id="email" class="login-field-1" type="text" style="display: none;" placeholder="email (optional)">
+        <input id="email" maxlength="400" class="login-field-1" type="text" style="display: none;" placeholder="email (optional)">
         
         
         
@@ -76,13 +76,13 @@
 
 
 
-<script type="text/javascript" src="../../javascript/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="jquery-3.2.1.min.js"></script>
     
 
 
 <script type="text/javascript">
     
-var url_placeholder = "/newsocial/src/public_html/";
+var url_placeholder = "<?php echo $_SESSION['url_placeholder'];  ?>";
     
     
 // Function to check letters and numbers  
@@ -300,7 +300,7 @@ function login_function(username, password1) {
              
                        $("#loginerror").show(300);
         
-                       $("#loginerror").html("Poor connection. Try gain later.");
+                       $("#loginerror").html("Error. Try again later.");
                 
                         
                     }
@@ -319,7 +319,7 @@ function login_function(username, password1) {
              
                        $("#loginerror").show(300);
         
-                       $("#loginerror").html("Poor connection. Try gain later.");
+                       $("#loginerror").html("Poor connection. Try again later.");
         
     });
     
@@ -343,6 +343,8 @@ $("#signup").on("click", function() {
     var password1 = $("#password1").val();
     
     var password2 = $("#password2").val();  
+    
+    var email = $("#email").val();
 
     
     $("#password2").show(200);
@@ -372,14 +374,14 @@ $("#signup").on("click", function() {
     
     if (both_fields_filled_register) {
 
-        if ((username.trim().length < 6) || (password1.trim().length < 6) || (username.trim().length > 16)  ||  (password1.trim().length > 16) ) {
+        if ((username.trim().length < 6) || (password1.trim().length < 6) || (username.trim().length > 16)  ||  (password1.trim().length > 16)  ||  (email.trim().length > 400) ) {
         
             
         $("#loginerror").hide(0);    
              
         $("#loginerror").show(300);
         
-        $("#loginerror").html("Username and password fields cannot be shorter than 6 or bigger than 16 characters.");
+        $("#loginerror").html("Username and password fields cannot be shorter than 6 or bigger than 16 characters. Email cannot exceed 400.");
             
         
         } else {
@@ -449,7 +451,7 @@ $("#signup").on("click", function() {
     if (login_is_alphanum_register  && both_fields_filled_register && login_length_check_register && passwords_equal) {
         
         
-        var email = $("#email").val();
+        
         
         
         if ( email.trim().length == 0 ) {
@@ -462,7 +464,7 @@ $("#signup").on("click", function() {
             
                 if (real_email) {
         
-                    sign_up_function(username, password1, password2, email);
+                    sign_up_function(username, password1, password2, email.trim());
         
                  } else {
         

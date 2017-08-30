@@ -30,12 +30,12 @@
 
 
 .nogroups-text {
-    font-family: Arvo; font-size: 15px; margin-left: 10px;
+    font-family: Work Sans; font-size: 15px; margin-left: 10px; margin-bottom: 20px;
 }
 
 
 .newgroups-text {
-    font-family: Josefin Slab;
+    font-family: Work Sans;
    font-size: 18px;
    font-weight: bold; margin-left: 10px;
 }
@@ -47,13 +47,13 @@
 
 
 .newgroups-text-2 {
-    font-family: Josefin Slab;  font-weight: bold; font-size: 16px;font-family: Josefin Slab;  margin-left: 10px; font-weight: lighter; text-decoration: underline;
+    font-family: Work Sans; font-size: 16px;  margin-left: 10px; font-weight: lighter; cursor: pointer;
 }
 
 
 .newgroups-text-3 {
     
-    font-family: Josefin Slab;  font-weight: bold; font-size: 16px;  margin-left: 10px; color: blue; margin-top: -20px;
+    font-family: Work Sans;  font-size: 16px;  margin-left: 10px; color: blue; margin-top: -20px;
 }
 
 
@@ -76,9 +76,9 @@
 
 
 .newgroup-field-1 {
-margin-left: 10px; width: 250px; padding: 8px; border: 1px solid #ddd; border-radius: 3px; font-family: Josefin Slab;
+margin-left: 10px; width: 250px; padding: 8px; border: 1px solid #ddd; border-radius: 3px; font-family: Work Sans;
    font-size: 15px;
-   font-weight: bold;
+   
     outline: none;
     margin-top: 10px;
 }
@@ -86,9 +86,9 @@ margin-left: 10px; width: 250px; padding: 8px; border: 1px solid #ddd; border-ra
 
 
 .newgroup-field-2 {
-margin-left: 10px; width: 250px; height: 100px; padding: 8px; border: 1px solid #ddd; border-radius: 3px; font-family: Josefin Slab;
+margin-left: 10px; width: 250px; height: 100px; padding: 8px; border: 1px solid #ddd; border-radius: 3px; font-family: Work Sans;
    font-size: 15px;
-   font-weight: bold;
+   
     outline: none;
     margin-top: 10px;
     resize: none;
@@ -303,6 +303,17 @@ padding: 0 0 0 0;
     font-weight: bold; font-size: 16px;font-family: Josefin Slab;
 }
 
+
+.btn-link-1 {
+        text-decoration: none;
+}
+
+
+.btn-link-1:hover {
+    text-decoration: none;
+}
+
+
 .membership-title {
     display: table; margin: 0 auto; font-weight: bold; font-size: 21px;font-family: Josefin Slab; margin-bottom: 30px;
 }
@@ -316,7 +327,13 @@ padding: 0 0 0 0;
 }
 
 .new-group-1 {
-    margin-left: 10px;   font-family: Josefin Slab; font-size: 15px; font-weight: bold; outline:0 !important;
+    margin-left: 10px;   font-family: Work Sans; font-size: 15px; outline:0 !important;
+}
+
+
+
+.new-group-1:hover {
+    margin-left: 10px;   font-family: Work Sans; font-size: 15px; outline:0 !important;
 }
 
 
@@ -366,9 +383,9 @@ padding: 0 0 0 0;
 
 
 .input-style-2 {
-    display: table; margin: 0 auto; margin-top: 20px;    font-family: Josefin Slab;
+    display: table; margin: 0 auto; margin-top: 20px;    font-family: Work Sans;
    font-size: 13px;
-   font-weight: bold;
+   color: black;
 }
 
 
@@ -386,6 +403,20 @@ padding: 0 0 0 0;
 }
 
 
+.text-username {
+
+font-family: Work Sans;
+    font-weight: lighter;
+    color: blue;
+}
+
+
+.text-body {
+
+font-family: Work Sans;
+    font-weight: lighter;
+    color: black;
+}
 
 
 
