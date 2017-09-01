@@ -21,7 +21,7 @@ if(isset($_POST['fetchnew']))  {
         
         if ($new_chat_test_result->num_rows > 0)  {
             
-            $new_chat = $posts->get_new_chat($offset, $_SESSION['admin_id'], $_POST['group']);
+            $new_chat = $posts->get_very_last_post($_POST['group']);
             
         } else {
             

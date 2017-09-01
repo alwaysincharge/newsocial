@@ -1020,7 +1020,7 @@ function uploadFile() {
         
        if ( ( window.innerHeight + window.scrollY ) >= document.body.offsetHeight ) {
            
-          displayFromDatabasePagination();
+        displayFromDatabasePagination();
            
           $(window).unbind("scroll");
            
@@ -1085,7 +1085,7 @@ function uploadFile() {
         
        $(window).unbind("scroll");
        
-       startPostLoop();
+      startPostLoop();
         
     } );
     
@@ -1121,7 +1121,6 @@ function displayFromDatabase() {
           },
           success: function( data ) {
               
-             
 
              var jsonData = JSON.parse( data );
              var jsonLength = jsonData.new_posts.length;
@@ -1306,7 +1305,47 @@ function displayFromDatabasePagination() {
                 oldPostHtml += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
                 oldPostHtml += '<div class=\"talktext\">';
                 oldPostHtml += '<p class=\"text-username\">' + resultOldPost.username + '</p>';
-                oldPostHtml += '<p class=\"text-body\"><a href=\" ' + resultOldPost.path  + ' \" download>' + resultOldPost.name + '</a></p><span><img style=\" height: 15px; width: 15px; \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png' + '\" /></span>';
+                oldPostHtml += '<p class=\"text-body\"><a href=\" ' + resultOldPost.path  + ' \" download>' + resultOldPost.name + '</a></p>';
+                     
+                     
+                     
+                     oldPostHtml += '<div class=\"row\">';
+                     
+                     oldPostHtml += '<div class=\"col-xs-5\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     oldPostHtml += '<img class=\" size-1 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png' + '\" />';
+                     
+                     oldPostHtml += '<img class=\" size-2 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
+                     
+                     oldPostHtml += '<img onclick=\"show_delete(' + resultOldPost.id + ') \" class=\" size-3 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/trash.png' + '\" />';
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     oldPostHtml += '<div class=\"col-xs-7\" >';
+                     
+                
+                     
+                     oldPostHtml += '<a><span class=\"delete-1 '+ 'show_delete' + resultOldPost.id +'\" >Delete? </span> </a>';
+                     
+                     
+                     oldPostHtml += '<a class=\"delete-2 '+ 'show_delete' + resultOldPost.id +'\" onclick=\"deleteoldpost(' + resultOldPost.id + ') \">Yes </a><a style=\"display: none; font-size: 13px;\" class=\"'+ 'show_delete' + resultOldPost.id +'\" > //</a>';
+                     
+                     
+                      oldPostHtml += '<a onclick=\"hide_delete(' + resultOldPost.id + ') \" class=\"delete-3 '+ 'show_delete' + resultOldPost.id +'\">  No </a>';
+                     
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     
+                     
+                     
                 oldPostHtml += ' </div></div></div></div>';    
                      
                  }  
@@ -1342,13 +1381,45 @@ function displayFromDatabasePagination() {
                 oldPostHtml += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
                 oldPostHtml += '<div class=\"talktext\">';
                 oldPostHtml += '<p class=\"text-username\">' + resultOldPost.username + '</p>';
-                oldPostHtml += '<p class=\"text-body\">'  + resultOldPost.message + '</p><div style=\"height: 300px; background: red;\"><span><img class=\" size-1 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png' + '\" /></span>';
-                oldPostHtml += '<a style=\" margin-top: 150px;\"> <img class=\" size-2 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" /> </a>';
-                oldPostHtml += '<a onclick=\"show_delete(' + resultOldPost.id + ') \"> <img class=\" size-3 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/trash.png' + '\" /> </a>';
-                oldPostHtml += '<a ><span class=\"delete-1 '+ 'show_delete' + resultOldPost.id +'\" style=\"font-weight: lighter; font-size: 13px; background: blue; padding-bottom: 0px; padding-top: -20px;\">Delete? </span> </a>';
-                oldPostHtml += '<a style=\"font-weight: lighter; font-size: 13px;\" class=\"delete-2 '+ 'show_deletej' + resultOldPost.id +'\" onclick=\"deleteoldpost(' + resultOldPost.id + ') \">Yes </a><a style=\"display: none; font-size: 13px;\" class=\"'+ 'show_deletej' + resultOldPost.id +'\" > //</a>';
-                oldPostHtml += '<a style=\"font-weight: lighter; font-size: 13px;\" onclick=\"hide_delete(' + resultOldPost.id + ') \" class=\"delete-3 '+ 'show_deletej' + resultOldPost.id +'\">  No </a>';
-                oldPostHtml += ' </div></div></div></div></div>';  
+                oldPostHtml += '<p class=\"text-body\">'  + resultOldPost.message + '</p>';
+                     
+                
+
+                     
+                     oldPostHtml += '<div class=\"row\">';
+                     
+                     oldPostHtml += '<div class=\"col-xs-5\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     oldPostHtml += '<img class=\" size-1 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png' + '\" />';
+                     
+                     oldPostHtml += '<img class=\" size-2 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
+                     
+                     oldPostHtml += '<img onclick=\"show_delete(' + resultOldPost.id + ') \" class=\" size-3 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/trash.png' + '\" />';
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     oldPostHtml += '<div class=\"col-xs-7\" >';
+                     
+                
+                     
+                     oldPostHtml += '<a><span class=\"delete-1 '+ 'show_delete' + resultOldPost.id +'\" >Delete? </span> </a>';
+                     
+                     
+                     oldPostHtml += '<a class=\"delete-2 '+ 'show_delete' + resultOldPost.id +'\" onclick=\"deleteoldpost(' + resultOldPost.id + ') \">Yes </a><a style=\"display: none; font-size: 13px;\" class=\"'+ 'show_delete' + resultOldPost.id +'\" > //</a>';
+                     
+                     
+                      oldPostHtml += '<a onclick=\"hide_delete(' + resultOldPost.id + ') \" class=\"delete-3 '+ 'show_delete' + resultOldPost.id +'\">  No </a>';
+                     
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     oldPostHtml += '</div>';
+                     
+                    oldPostHtml += '</div></div></div></div>'; 
                      
                  }
                  
@@ -1862,6 +1933,7 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
                 
           previewLink(name, new_post_id);
          
+          
           sendPostData( e, new_post_id, text,  new_post_id_num);
                 
                 
