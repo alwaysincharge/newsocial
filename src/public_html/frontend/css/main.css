@@ -11,9 +11,15 @@
 }
 
 
+a {
+    
+   text-decoration: none;
+}
 
-
-
+a:hover {
+    
+   text-decoration: none;
+}
 
 .centered {
   position: fixed;
@@ -26,8 +32,29 @@
     border-radius: 5px;
 }
 
+.size-1 {
+    height: 15px; width: 15px; margin-top: 5px;
+}
 
+.size-2 {
+    height: 15px; width: 15px; margin-top: 5px;
+}
 
+.size-3 {
+    height: 15px; width: 15px; cursor: pointer; margin-top: 5px;
+}
+
+.delete-1 {
+    display: none; font-family: Work Sans; margin-right: 15px; font-weight: lighter;
+}
+
+.delete-2 {
+    display: none; font-family: Work Sans; color: black; margin-right: 5px; cursor: pointer; font-weight: lighter;
+}
+
+.delete-3 {
+    display: none; font-family: Work Sans; margin-left: 5px; color: black; cursor: pointer; font-weight: lighter;
+}
 
 .nogroups-text {
     font-family: Work Sans; font-size: 15px; margin-left: 10px; margin-bottom: 20px;
@@ -67,9 +94,9 @@
 
 
 .login-field-1 {
-    display: table; margin: 0 auto; width: 250px; padding: 8px; border: 1px solid #505050; border-radius: 3px; font-family: Josefin Slab;
+    display: table; margin: 0 auto; width: 250px; padding: 8px; border: 1px solid #505050; border-radius: 3px; font-family: Work Sans;
    font-size: 15px;
-   font-weight: bold;
+   
     outline: none;
     margin-top: 10px;
 }
@@ -110,9 +137,9 @@ margin-left: 10px; width: 250px; height: 100px; padding: 8px; border: 1px solid 
     background: #ddd;
     margin-top: 20px;
     border-radius: 4px;
-    font-family: Josefin Slab;
+    font-family: Work Sans;
    font-size: 15px;
-   font-weight: bold;
+   
     
 }
 
@@ -136,9 +163,9 @@ margin-left: 10px; width: 250px; height: 100px; padding: 8px; border: 1px solid 
 }
 
 .login-button-1 {
-    width: 120px; font-family: Josefin Slab;
+    width: 120px; font-family: Work Sans;
    font-size: 15px;
-   font-weight: bold;
+   
     outline:0 !important;
 }
 
@@ -211,10 +238,17 @@ padding: 0 0 0 0;
 
 .logo-heading-1 {
     font-family: Eczar;
-   font-size: 32px;
+   font-size: 22px;
                       
    font-weight: bold;
 }
+
+.show_delete {
+    display: none;
+}
+
+
+
 
 .post-img-1 {
     border-radius: 0px; margin-bottom: 50px; width: 100%;
@@ -373,9 +407,9 @@ padding: 0 0 0 0;
 .search-main {
     border: 1px solid #ddd;
     border-radius: 3px;
-    font-family: Josefin Slab;
+    font-family: Work Sans;
    font-size: 15px;
-    font-weight: bold;
+    
     width: 250px;
     padding: 7px;
     
@@ -416,6 +450,7 @@ font-family: Work Sans;
 font-family: Work Sans;
     font-weight: lighter;
     color: black;
+    padding-bottom: 10px;
 }
 
 
