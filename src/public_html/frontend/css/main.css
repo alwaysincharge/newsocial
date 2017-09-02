@@ -32,20 +32,25 @@ a:hover {
     border-radius: 5px;
 }
 
+.size-0 {
+    height: 10px; width: 10px; margin-top: 5px; margin-right: 10px; cursor: pointer;
+}
+
+
 .size-1 {
-    height: 15px; width: 15px; margin-top: 5px; margin-right: 10px;
+    height: 10px; width: 10px; margin-top: 5px; margin-right: 10px;
 }
 
 .size-2 {
-    height: 15px; width: 15px; margin-top: 5px; margin-right: 10px;
+    height: 20px; width: 20px; margin-top: 5px; margin-left: -12px; margin-right: 10px; display: none;
 }
 
 .size-3 {
-    height: 15px; width: 15px; cursor: pointer; margin-top: 5px;
+    height: 20px; width: 20px; cursor: pointer; display: none;
 }
 
 .delete-1 {
-    display: none; font-family: Work Sans; margin-right: 15px; font-weight: lighter; font-size: 13px;
+    display: none; font-family: Work Sans; margin-right: 5px; font-weight: lighter; font-size: 13px;
 }
 
 .delete-2 {
@@ -240,7 +245,7 @@ padding: 0 0 0 0;
     font-family: Eczar;
    font-size: 22px;
                       
-   font-weight: bold;
+   
 }
 
 .show_delete {

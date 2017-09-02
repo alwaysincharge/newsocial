@@ -22,8 +22,12 @@ if(isset($_POST['insert_attach']))  {
         
         
     $posts->insert_attach($path, $name, $type, $posttype, $group, $_SESSION['admin_id']);   
-         
-    echo 1;
+
+    $post_id_attach = mysqli_insert_id($database->connection);
+    
+    $attach_array = array("send_success"=> 1, "post_id"=> $post_id_attach);     
+    
+    echo json_encode(array_values($attach_array));
          
     exit();
     

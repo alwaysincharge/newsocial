@@ -366,9 +366,9 @@ $user_info = $user_details_result->fetch_assoc();
                     
                     
                     
-                   <div id="chatbox" style="display: none;">
+                   <div id="chatbox" style="display: none; margin-bottom: -40px;">
                     
-                        <textarea id="text" type="text" class="search-main" placeholder="write something" style="margin-bottom: 10px; width: 100%; height: 50px; resize: none; outline: none;"></textarea>
+                        <textarea id="text" type="text" class="search-main" placeholder="write something" style="margin-bottom: 10px; width: 100%; height: 70px; resize: none; outline: none;"></textarea>
                        
                        
                        
@@ -388,7 +388,7 @@ $user_info = $user_details_result->fetch_assoc();
    font-size: 26px;
    font-weight: bold; color: blue; margin-left: 20px;"></a>
                        
-                       <br><br>
+                       
                        <a id="progressMessage" style="font-family: Josefin Slab;
    font-size: 16px;
    font-weight: bold;"></a>
@@ -404,16 +404,13 @@ $user_info = $user_details_result->fetch_assoc();
                        
                      
                     
-                        <a id="chatboxfile"><img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/attachment.svg" style="width: 20px; cursor: pointer;"  /></a>
+                        <a id="chatboxfile"><img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/attachment.svg" style="width: 13px; cursor: pointer;"  /></a>
                     
-                        <a id="chatboxclose"><img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/cancel.svg" style="width: 20px; margin-left: 10px; cursor: pointer;"  /></a> <br><br>
+                        <a id="chatboxclose"><img src="<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/cancel.svg" style="width: 13px; margin-left: 10px; cursor: pointer;"  /></a> <br><br>
                        
                        
 
-                       
-                      <!-- <p id="loadedbytes"></p><br> -->
-                    
-                      <!--  <input id="submit" class="btn new-group-1" type="submit" style="margin-left: 0px;" value="POST"> -->
+                
                     
                    </div> 
                     
@@ -1167,6 +1164,58 @@ function displayFromDatabase() {
                    html_new_posts_1 += '<div class=\"talktext1\">';
                    html_new_posts_1 += '<p class=\"text-username\">' + new_post_result.username + '</p>';
                    html_new_posts_1 += '<p class=\"text-body\"><a href=\" ' + new_post_result.path  + ' \" download>' + new_post_result.name + '</a></p>';
+                        
+                        
+                                             html_new_posts_1 += '<div class=\"row\" >';
+                     
+                     
+                     html_new_posts_1 += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     html_new_posts_1 += '<img onclick=\"start_delete(' + new_post_result.id + ') \" class=\" size-0 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/arrow.svg' + '\" />';
+                     
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     html_new_posts_1 += '<div class=\"col-xs-3\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     html_new_posts_1 += '<img class=\" size-2 '+ 'start_delete' + new_post_result.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
+                     
+                    
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     html_new_posts_1 += '<div class=\"col-xs-5\" >';
+                     
+                     // Empty div.
+                   
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     
+                     
+                     
+                    html_new_posts_1 += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                    // Empty div.
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     
+                    
+                        
+                        
                    html_new_posts_1 += ' </div></div></div>';
                    html_new_posts_1 += '<div class=\"col-xs-2\">';
                    html_new_posts_1 += '<a><img src=\" ' +  '<?php echo $_SESSION['url_placeholder'];  ?>' + new_post_result.image  +' \" class=\"chat-right-2\"  /></a>';
@@ -1204,6 +1253,57 @@ function displayFromDatabase() {
                    html_new_posts_1 += '<div class=\"talktext1\">';
                    html_new_posts_1 += '<p class=\"text-username\">' + new_post_result.username + '</p>';
                    html_new_posts_1 += '<p class=\"text-body\">' + new_post_result.message + '</p>';
+                    
+                    
+                                         html_new_posts_1 += '<div class=\"row\" >';
+                     
+                     
+                     html_new_posts_1 += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     html_new_posts_1 += '<img onclick=\"start_delete(' + new_post_result.id + ') \" class=\" size-0 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/arrow.svg' + '\" />';
+                     
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     html_new_posts_1 += '<div class=\"col-xs-3\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     html_new_posts_1 += '<img class=\" size-2 '+ 'start_delete' + new_post_result.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
+                     
+                    
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     html_new_posts_1 += '<div class=\"col-xs-5\" >';
+                     
+                     // Empty div.
+                   
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     
+                     
+                     
+                    html_new_posts_1 += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                    // Empty div.
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     
+                    
+                    
                    html_new_posts_1 += ' </div></div></div>';
                    html_new_posts_1 += '<div class=\"col-xs-2\">';
                    html_new_posts_1 += '<a><img src=\" ' +  '<?php echo $_SESSION['url_placeholder'];  ?>' + new_post_result.image  +' \" class=\"chat-right-2\"  /></a>';
@@ -1309,39 +1409,60 @@ function displayFromDatabasePagination() {
                      
                      
                      
-                     oldPostHtml += '<div class=\"row\">';
+                        
+                     oldPostHtml += '<div class=\"row\" >';
                      
-                     oldPostHtml += '<div class=\"col-xs-5\" style=\" height: 25px;\">';
+                     
+                     oldPostHtml += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
                      
                     
                      
-                     oldPostHtml += '<img class=\" size-1 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png' + '\" />';
+                     oldPostHtml += '<img onclick=\"start_delete(' + resultOldPost.id + ') \" class=\" size-0 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/arrow.svg' + '\" />';
                      
-                     oldPostHtml += '<img class=\" size-2 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
-                     
-                     oldPostHtml += '<img onclick=\"show_delete(' + resultOldPost.id + ') \" class=\" size-3 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/trash.png' + '\" />';
                      
                      oldPostHtml += '</div>';
                      
                      
-                     oldPostHtml += '<div class=\"col-xs-7\" >';
+                     oldPostHtml += '<div class=\"col-xs-3\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     oldPostHtml += '<img class=\" size-2 '+ 'start_delete' + resultOldPost.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
+                     
+                     oldPostHtml += '<img onclick=\"show_delete(' + resultOldPost.id + ') \" class=\" size-3 '+ 'start_delete' + resultOldPost.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/trash.png' + '\" />';
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     oldPostHtml += '<div class=\"col-xs-5\" >';
+                     
+                     
+                     oldPostHtml += '<a class=\"delete-2 '+ 'show_delete' + resultOldPost.id +'\" onclick=\"deleteoldpost(' + resultOldPost.id + ') \">delete</a><a style=\"display: none; font-size: 13px;\" class=\"'+ 'show_delete' + resultOldPost.id +'\" > //</a>';
+                     
+                     
+                      oldPostHtml += '<a onclick=\"hide_delete(' + resultOldPost.id + ') \" class=\"delete-3 '+ 'show_delete' + resultOldPost.id +'\">don\'t</a>';
+                     
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     
+                     
+                     
+                    oldPostHtml += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     oldPostHtml += '<img class=\" size-1 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/checked.svg' + '\" />';
+                     
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     
+                     oldPostHtml += '</div>';
                      
                 
-                     
-                     oldPostHtml += '<a><span class=\"delete-1 '+ 'show_delete' + resultOldPost.id +'\" >Delete? </span> </a>';
-                     
-                     
-                     oldPostHtml += '<a class=\"delete-2 '+ 'show_delete' + resultOldPost.id +'\" onclick=\"deleteoldpost(' + resultOldPost.id + ') \">Yes </a><a style=\"display: none; font-size: 13px;\" class=\"'+ 'show_delete' + resultOldPost.id +'\" > //</a>';
-                     
-                     
-                      oldPostHtml += '<a onclick=\"hide_delete(' + resultOldPost.id + ') \" class=\"delete-3 '+ 'show_delete' + resultOldPost.id +'\">  No </a>';
-                     
-                     
-                     oldPostHtml += '</div>';
-                     
-                     
-                     oldPostHtml += '</div>';
-                     
                      
                      
                      
@@ -1360,6 +1481,62 @@ function displayFromDatabasePagination() {
                    oldPostHtml += '<div class=\"talktext1\">';
                    oldPostHtml += '<p class=\"text-username\">' + resultOldPost.username + '</p>';
                    oldPostHtml += '<p class=\"text-body\"><a href=\" ' + resultOldPost.path  + ' \" download>' + resultOldPost.name + '</a></p>';
+                        
+                        
+                        
+                        
+                        
+                                             oldPostHtml += '<div class=\"row\" >';
+                     
+                     
+                     oldPostHtml += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     oldPostHtml += '<img onclick=\"start_delete(' + resultOldPost.id + ') \" class=\" size-0 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/arrow.svg' + '\" />';
+                     
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     oldPostHtml += '<div class=\"col-xs-3\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     oldPostHtml += '<img class=\" size-2 '+ 'start_delete' + resultOldPost.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
+                     
+                    
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     oldPostHtml += '<div class=\"col-xs-5\" >';
+                     
+                     // Empty div.
+                   
+                     oldPostHtml += '</div>';
+                     
+                     
+                     
+                     
+                     
+                    oldPostHtml += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                    // Empty div.
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     
+                    
+                        
+                        
+                        
                    oldPostHtml += ' </div></div></div>';
                    oldPostHtml += '<div class=\"col-xs-2\">';
                    oldPostHtml += '<a><img src=\" ' +  '<?php echo $_SESSION['url_placeholder'];  ?>' + resultOldPost.image  +' \" class=\"chat-right-2\"  /></a>';
@@ -1386,38 +1563,61 @@ function displayFromDatabasePagination() {
                 
 
                      
-                     oldPostHtml += '<div class=\"row\">';
                      
-                     oldPostHtml += '<div class=\"col-xs-5\" style=\" height: 25px;\">';
+                     oldPostHtml += '<div class=\"row\" >';
+                     
+                     
+                     oldPostHtml += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
                      
                     
                      
-                     oldPostHtml += '<img class=\" size-1 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png' + '\" />';
-                     
-                     oldPostHtml += '<img class=\" size-2 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
-                     
-                     oldPostHtml += '<img onclick=\"show_delete(' + resultOldPost.id + ') \" class=\" size-3 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/trash.png' + '\" />';
-                     
-                     oldPostHtml += '</div>';
-                     
-                     
-                     oldPostHtml += '<div class=\"col-xs-7\" >';
-                     
-                
-                     
-                     oldPostHtml += '<a><span class=\"delete-1 '+ 'show_delete' + resultOldPost.id +'\" >Delete? </span> </a>';
-                     
-                     
-                     oldPostHtml += '<a class=\"delete-2 '+ 'show_delete' + resultOldPost.id +'\" onclick=\"deleteoldpost(' + resultOldPost.id + ') \">Yes </a><a style=\"display: none; font-size: 13px;\" class=\"'+ 'show_delete' + resultOldPost.id +'\" > //</a>';
-                     
-                     
-                      oldPostHtml += '<a onclick=\"hide_delete(' + resultOldPost.id + ') \" class=\"delete-3 '+ 'show_delete' + resultOldPost.id +'\">  No </a>';
+                     oldPostHtml += '<img onclick=\"start_delete(' + resultOldPost.id + ') \" class=\" size-0 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/arrow.svg' + '\" />';
                      
                      
                      oldPostHtml += '</div>';
                      
                      
+                     oldPostHtml += '<div class=\"col-xs-3\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     oldPostHtml += '<img class=\" size-2 '+ 'start_delete' + resultOldPost.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
+                     
+                     oldPostHtml += '<img onclick=\"show_delete(' + resultOldPost.id + ') \" class=\" size-3 '+ 'start_delete' + resultOldPost.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/trash.png' + '\" />';
+                     
                      oldPostHtml += '</div>';
+                     
+                     
+                     oldPostHtml += '<div class=\"col-xs-5\" >';
+                     
+                     
+                     oldPostHtml += '<a class=\"delete-2 '+ 'show_delete' + resultOldPost.id +'\" onclick=\"deleteoldpost(' + resultOldPost.id + ') \">delete</a><a style=\"display: none; font-size: 13px;\" class=\"'+ 'show_delete' + resultOldPost.id +'\" > //</a>';
+                     
+                     
+                      oldPostHtml += '<a onclick=\"hide_delete(' + resultOldPost.id + ') \" class=\"delete-3 '+ 'show_delete' + resultOldPost.id +'\">don\'t</a>';
+                     
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     
+                     
+                     
+                    oldPostHtml += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     oldPostHtml += '<img class=\" size-1 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/checked.svg' + '\" />';
+                     
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     
                      
                     oldPostHtml += '</div></div></div></div>'; 
                      
@@ -1434,6 +1634,60 @@ function displayFromDatabasePagination() {
                    oldPostHtml += '<div class=\"talktext1\">';
                    oldPostHtml += '<p class=\"text-username\">' + resultOldPost.username + '</p>';
                    oldPostHtml += '<p class=\"text-body\">' + resultOldPost.message + '</p>';
+                    
+                    
+                       
+                     oldPostHtml += '<div class=\"row\" >';
+                     
+                     
+                     oldPostHtml += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     oldPostHtml += '<img onclick=\"start_delete(' + resultOldPost.id + ') \" class=\" size-0 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/arrow.svg' + '\" />';
+                     
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     oldPostHtml += '<div class=\"col-xs-3\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     oldPostHtml += '<img class=\" size-2 '+ 'start_delete' + resultOldPost.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
+                     
+                    
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     oldPostHtml += '<div class=\"col-xs-5\" >';
+                     
+                     // Empty div.
+                   
+                     oldPostHtml += '</div>';
+                     
+                     
+                     
+                     
+                     
+                    oldPostHtml += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                    // Empty div.
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     
+                     oldPostHtml += '</div>';
+                     
+                     
+                     
+                    
+                    
+                    
+                    
                    oldPostHtml += ' </div></div></div>';
                    oldPostHtml += '<div class=\"col-xs-2\">';
                    oldPostHtml += '<a><img src=\" ' +  '<?php echo $_SESSION['url_placeholder'];  ?>' + resultOldPost.image  +' \" class=\"chat-right-2\"  /></a>';
@@ -1499,17 +1753,76 @@ function displayFromDatabasePagination() {
         
        var is_sent_already = function( post_ui, post_id_0 ) {
            
-            
-                append_post_sent_1 = "";
-                append_post_sent_1 ='<img style=\" height: 15px; width: 15px; \" src=\" ' + '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png' + '  \" />';
-                append_post_sent_1 += '<a>Save</a>';
-                append_post_sent_1 += '<a>Delete</a>';
-                append_post_sent_1 += '<a>Are you sure?</a>';
-                append_post_sent_1 += '<a onclick=\"deletenewpost(' +  post_id_num + ',' + post_id_0 + ') \">Yes</a>';
-                append_post_sent_1 += '<a>No</a>';
            
-          $( "#" + post_ui ).html(append_post_sent_1);
+           
+                append_post_sent_1 = "";
+                     
+                     append_post_sent_1 += '<div class=\"row\" >';
+                     
+                     
+                     append_post_sent_1 += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     append_post_sent_1 += '<img onclick=\"start_delete(' + post_id_0 + ') \" class=\" size-0 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/arrow.svg' + '\" />';
+                     
+                     
+                     append_post_sent_1 += '</div>';
+                     
+                     
+                     append_post_sent_1 += '<div class=\"col-xs-3\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     append_post_sent_1 += '<img class=\" size-2 '+ 'start_delete' + post_id_0 +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
+                     
+                     append_post_sent_1 += '<img onclick=\"show_delete(' + post_id_0 + ') \" class=\" size-3 '+ 'start_delete' + post_id_0 +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/trash.png' + '\" />';
+                     
+                     append_post_sent_1 += '</div>';
+                     
+                     
+                     append_post_sent_1 += '<div class=\"col-xs-5\" >';
+                     
+                     
+                     append_post_sent_1 += '<a class=\"delete-2 '+ 'show_delete' + post_id_0 +'\" onclick=\"deletenewpost(' +  post_id_num + ',' + post_id_0 + ') \">delete</a><a style=\"display: none; font-size: 13px;\" class=\"'+ 'show_delete' + post_id_0 +'\" > //</a>';
+                     
+                     
+                      append_post_sent_1 += '<a onclick=\"hide_delete(' + post_id_0 + ') \" class=\"delete-3 '+ 'show_delete' + post_id_0 +'\">don\'t</a>';
+                     
+                     
+                     append_post_sent_1 += '</div>';
+                     
+                     
+                     
+                     
+                     
+                    append_post_sent_1 += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     append_post_sent_1 += '<img class=\" size-1 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/checked.svg' + '\" />';
+                     
+                     
+                     append_post_sent_1 += '</div>';
+                     
+                     
+                     
+                     append_post_sent_1 += '</div>';
+                     
+                     
+                     
+           
+      
+           
+           var new_items_chat_append_1 = $( append_post_sent_1 ).hide();
+           
+           $( "#" + post_ui ).prepend( new_items_chat_append_1 );
+           
+           new_items_chat_append_1.show(500);
+           
        };
+        
+        
         
        var text_Trim = $( "#text" ).val().trim();
        
@@ -1598,8 +1911,12 @@ function displayFromDatabasePagination() {
     
         
    function deleteoldpost(post_ui_id) {
+       
+       
     
        $("#old_post" + post_ui_id).hide(200);
+       
+       $("#whole_new_post" + post_ui_id).hide(200);
        
        delete_post_url = "<?php  echo $_SESSION['url_placeholder'];  ?>" + "delete_post";
        
@@ -1664,9 +1981,17 @@ function displayFromDatabasePagination() {
   
     
     
+ function start_delete(post_ui) {
+
+     $(".start_delete" + post_ui).toggle(200);
+       
+       
+}    
+    
+    
  function show_delete(post_ui) {
 
-     $(".show_delete" + post_ui).show(0);
+     $(".show_delete" + post_ui).show(200);
        
        
 }
@@ -1676,7 +2001,7 @@ function displayFromDatabasePagination() {
   
 function hide_delete(post_ui) {
 
-     $(".show_delete" + post_ui).hide(0);
+     $(".show_delete" + post_ui).hide(200);
        
        
 }
@@ -1684,11 +2009,78 @@ function hide_delete(post_ui) {
     
     
     
-    function sendPostDataAttach( post_id, path, name, type, posttype ) {
+    function sendPostDataAttach( post_id, path, name, type, posttype,  post_id_0) {
         
-        var is_sent = function( post_id ) {
+        var is_sent = function( post_id_new ) {
             
-          $( "#" + post_id ).html('<img style=\" height: 15px; width: 15px; \" src=\"<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png\" />');
+          
+                     append_post_sent_2 = "";
+                     
+                     append_post_sent_2 += '<div class=\"row\" >';
+                     
+                     
+                     append_post_sent_2 += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     append_post_sent_2 += '<img onclick=\"start_delete(' + post_id_new + ') \" class=\" size-0 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/arrow.svg' + '\" />';
+                     
+                     
+                     append_post_sent_2 += '</div>';
+                     
+                     
+                     append_post_sent_2 += '<div class=\"col-xs-3\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     append_post_sent_2 += '<img class=\" size-2 '+ 'start_delete' + post_id_new +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
+                     
+                     append_post_sent_2 += '<img onclick=\"show_delete(' + post_id_new + ') \" class=\" size-3 '+ 'start_delete' + post_id_new +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/trash.png' + '\" />';
+                     
+                     append_post_sent_2 += '</div>';
+                     
+                     
+                     append_post_sent_2 += '<div class=\"col-xs-5\" >';
+                     
+                     
+                     append_post_sent_2 += '<a class=\"delete-2 '+ 'show_delete' + post_id_new +'\" onclick=\"deletenewpost(' +  post_id_0 + ',' + post_id_new + ') \">delete</a><a style=\"display: none; font-size: 13px;\" class=\"'+ 'show_delete' + post_id_new +'\" > //</a>';
+                     
+                     
+                      append_post_sent_2 += '<a onclick=\"hide_delete(' + post_id_new + ') \" class=\"delete-3 '+ 'show_delete' + post_id_new +'\">don\'t</a>';
+                     
+                     
+                     append_post_sent_2 += '</div>';
+                     
+                     
+                     
+                     
+                     
+                    append_post_sent_2 += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     append_post_sent_2 += '<img class=\" size-1 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/checked.svg' + '\" />';
+                     
+                     
+                     append_post_sent_2 += '</div>';
+                     
+                     
+                     
+                     append_post_sent_2 += '</div>';
+                     
+                     
+                     
+           
+      
+           
+           var new_items_chat_append_2 = $( append_post_sent_2 ).hide();
+           
+           $( "#" + post_id ).prepend( new_items_chat_append_2 );
+           
+           new_items_chat_append_2.show(500);
+            
+            
+
             
         };
         
@@ -1711,10 +2103,21 @@ function hide_delete(post_ui) {
                  "group": page_group_id
              },
              success: function( data ) {
+                 
+                 
+             var jsonNewPostAttach = JSON.parse( data );
+            
+             var statusNewPostAttach =  jsonNewPostAttach[0];
+            
+             var post_id_new_from_json_2 =  jsonNewPostAttach[1];
+                 
+                if ( statusNewPostAttach == 1 ) {
                     
-                if ( data == 1 ) {
-                   is_sent( post_id );
-                } 
+                   is_sent( post_id_new_from_json_2 );
+                    
+                } else {}
+                 
+                 
                  
              },
              error: function( xhr, textStatus, errorThrown ) {
@@ -1900,7 +2303,7 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
             var new_items_chat = $( new_chat_html ).hide();
             $( '#postsdiv' ).prepend( new_items_chat );
             new_items_chat.show( 'fast' );
-            sendPostDataAttach( new_post_id, attach_chat_path, attach_chat_name, attach_chat_type, post_type_chat );
+            sendPostDataAttach( new_post_id, attach_chat_path, attach_chat_name, attach_chat_type, post_type_chat, new_post_id_num );
             
             new_post_id_num = new_post_id_num + 1;
             new_post_id = "new_post" + new_post_id_num;
