@@ -368,7 +368,7 @@ $user_info = $user_details_result->fetch_assoc();
                     
                    <div id="chatbox" style="display: none; margin-bottom: -40px;">
                     
-                        <textarea id="text" type="text" class="search-main" placeholder="write something" style="margin-bottom: 10px; width: 100%; height: 70px; resize: none; outline: none;"></textarea>
+                        <textarea id="text" type="text" class="search-main" maxlength="200" placeholder="write something" style="margin-bottom: 10px; width: 100%; height: 70px; resize: none; outline: none;"></textarea>
                        
                        
                        
@@ -431,6 +431,33 @@ $user_info = $user_details_result->fetch_assoc();
             
                         
                     </div>
+                        
+                        
+                        
+                        <div style="display: table; margin: 0 auto;">
+                        
+                                                <p id="start" style="display: none; margin-bottom: 30px; font-size: 20px; font-family: Eczar;">
+                        
+                        Be the first to make a post. 
+                        </p>
+                        
+                        
+                        
+                        <p id="continue" style="display: none; margin-bottom: 30px; font-size: 20px; font-family: Eczar;">
+                        
+                        Be the first to make a post. 
+                        </p>
+                        
+                        
+                        <p id="end" style="display: none; margin-bottom: 30px; font-size: 20px; font-family: Eczar;">
+                        
+                        End of posts.
+                        </p>
+                        
+                        
+                        </div>
+                        
+
                 
                         
                         
@@ -721,6 +748,12 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
 <script type="text/javascript">
 
 page_group_id = "<?php echo $_GET['group'];  ?>";
+    
+currentArray = [];
+    
+
+
+    
     
     
     
@@ -1084,6 +1117,8 @@ function uploadFile() {
        
       startPostLoop();
         
+
+        
     } );
     
     
@@ -1103,6 +1138,8 @@ function displayFromDatabase() {
     
         
        fetch_new_url = "<?php echo $_SESSION['url_placeholder'];  ?>fetch_recent_posts";
+    
+    var post_on_page = false;
         
        $.ajax( {
            
@@ -1118,7 +1155,8 @@ function displayFromDatabase() {
           },
           success: function( data ) {
               
-
+            
+              
              var jsonData = JSON.parse( data );
              var jsonLength = jsonData.new_posts.length;
              var html_new_posts_1 = "";
@@ -1130,6 +1168,18 @@ function displayFromDatabase() {
                  
              }
               
+              
+                if (lastTimeID > 0) {
+                     
+                     post_on_page = true;
+              
+                     
+                     
+                 }
+              
+              
+              
+              
              for ( var i = 0; i < jsonLength; i++ ) {
                  
                  
@@ -1137,11 +1187,68 @@ function displayFromDatabase() {
                 
                 lastTimeID = new_post_result.id;
                 
+                 
+            
+                 
+                 if (new_post_result.owner == 0) {
+                     
+                     $('#start').show();
+                     
+                     $('#continue').hide();
+                     
+                     $('#end').hide();
+                     
+                 } 
+                 
+                 
+                
+           
+                 if (post_on_page) {
+                     
+                    if (new_post_result.owner > 0) {
+                     
+                     $('#start').hide();
+                     
+                     $('#continue').hide();
+                     
+                 } else {
+                     
+                     
+                     
+                 }
+                     
+                 }
+                 
+                 
+
+                 
+                 
 
                  
                  if(new_post_result.type == 'attach' && new_post_result.owner == "<?php echo $user_info['id']; ?>") {
                      
-                html_new_posts_1 += '<div class=\"row\">';
+        
+                            const haystack = currentArray;
+                     
+                            const needle = new_post_result.timeinput;
+                     
+                            const isInArray = haystack.includes(parseInt(needle));
+
+                     
+                
+                     
+                     
+                           if (isInArray) {
+
+                           // Do nothing.
+                           }     
+                     
+                     
+                     
+                     if (!isInArray)  {
+                     
+                                                
+                html_new_posts_1 += '<div class=\"row\" id=\"'+ 'old_post' + new_post_result.id +'\">';
                 html_new_posts_1 += '<div class=\"col-xs-2\">';
                 html_new_posts_1 += '<a><img src=\" '+ '<?php echo $_SESSION['url_placeholder'];  ?>' + new_post_result.image  +' \" class=\"chat-left-1\"  /></a>';
                 html_new_posts_1 += '</div>';
@@ -1150,7 +1257,72 @@ function displayFromDatabase() {
                 html_new_posts_1 += '<div class=\"talktext\">';
                 html_new_posts_1 += '<p class=\"text-username\">' + new_post_result.username + '</p>';
                 html_new_posts_1 += '<p class=\"text-body\"><a href=\" ' + new_post_result.path  + ' \" download>' + new_post_result.name + '</a></p>';
+                         
+                         
+                                                 
+                                             html_new_posts_1 += '<div class=\"row\" >';
+                     
+                     
+                     html_new_posts_1 += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     html_new_posts_1 += '<img onclick=\"start_delete(' + new_post_result.id + ') \" class=\" size-0 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/arrow.svg' + '\" />';
+                     
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     html_new_posts_1 += '<div class=\"col-xs-3\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     html_new_posts_1 += '<img class=\" size-2 '+ 'start_delete' + new_post_result.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
+                     
+                                        html_new_posts_1 += '<img onclick=\"show_delete(' + new_post_result.id + ') \" class=\" size-3 '+ 'start_delete' + new_post_result.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/trash.png' + '\" />';
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     html_new_posts_1 += '<div class=\"col-xs-5\" >';
+                     
+                       html_new_posts_1 += '<a class=\"delete-2 '+ 'show_delete' + new_post_result.id +'\" onclick=\"deleteoldpost(' + new_post_result.id + ') \">delete</a><a style=\"display: none; font-size: 13px;\" class=\"'+ 'show_delete' + new_post_result.id +'\" > //</a>';
+                     
+                     
+                      html_new_posts_1 += '<a onclick=\"hide_delete(' + new_post_result.id + ') \" class=\"delete-3 '+ 'show_delete' + new_post_result.id +'\">don\'t</a>';
+                     
+                        
+                   
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     
+                     
+                     
+                    html_new_posts_1 += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                    html_new_posts_1 += '<img class=\" size-1 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/checked.svg' + '\" />';
+                     
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                         
+                         
+                         
                 html_new_posts_1 += ' </div></div></div></div>';    
+                      
+                         
+                         
+                     }
+                     
+                     
+        
                      
                  }  
                  
@@ -1158,7 +1330,7 @@ function displayFromDatabase() {
                  
                     if(new_post_result.type == 'attach' && new_post_result.owner != "<?php echo $user_info['id']; ?>") {
          
-                   html_new_posts_1 += '<div class=\"row\">';
+                   html_new_posts_1 += '<div class=\"row\" id=\"'+ 'old_post' + new_post_result.id +'\">';
                    html_new_posts_1 += '<div class=\"col-xs-10\">';
                    html_new_posts_1 += '<div class=\"talk-bubble1 tri-right1 left-top1\" class=\"chat-right-1\">';
                    html_new_posts_1 += '<div class=\"talktext1\">';
@@ -1226,10 +1398,42 @@ function displayFromDatabase() {
                  
                  
                  
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
                  if (new_post_result.type == "chat" && new_post_result.owner == "<?php echo $user_info['id']; ?>") {
+
                      
-                       
-                html_new_posts_1 += '<div class=\"row\">';
+                     
+                     
+                     
+                            const haystack = currentArray;
+                     
+                            const needle = new_post_result.timeinput;
+                     
+                            const isInArray = haystack.includes(parseInt(needle));
+
+                     
+                
+                     
+                     
+                           if (isInArray) {
+
+                           // Do nothing.
+                           }     
+                     
+                     
+                     
+                     if (!isInArray)  {
+                         
+                                        
+                                         html_new_posts_1 += '<div class=\"row\" id=\"'+ 'old_post' + new_post_result.id +'\">';
                 html_new_posts_1 += '<div class=\"col-xs-2\">';
                 html_new_posts_1 += '<a><img src=\" '+ '<?php echo $_SESSION['url_placeholder'];  ?>' + new_post_result.image +'  \" class=\"chat-left-1\"  /></a>';
                 html_new_posts_1 += '</div>';
@@ -1237,17 +1441,103 @@ function displayFromDatabase() {
                 html_new_posts_1 += '<div class=\"talk-bubble tri-right left-top\" class=\"chat-left-2\">';
                 html_new_posts_1 += '<div class=\"talktext\">';
                 html_new_posts_1 += '<p class=\"text-username\">' + new_post_result.username + '</p>';
-                html_new_posts_1 += '<p class=\"text-body\">'  + new_post_result.message + '</p><span><img style=\" height: 15px; width: 15px; \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/sent.png' + '\" /></span>';
+                html_new_posts_1 += '<p class=\"text-body\">'  + new_post_result.message + '</p>';
+                                        
+                                        
+                                        
+                                        
+                                                                
+                                             html_new_posts_1 += '<div class=\"row\" >';
+                     
+                     
+                     html_new_posts_1 += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     html_new_posts_1 += '<img onclick=\"start_delete(' + new_post_result.id + ') \" class=\" size-0 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/arrow.svg' + '\" />';
+                     
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     html_new_posts_1 += '<div class=\"col-xs-3\" style=\" height: 25px;\">';
+                     
+                    
+                     
+                     html_new_posts_1 += '<img class=\" size-2 '+ 'start_delete' + new_post_result.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
+                     
+                    html_new_posts_1 += '<img onclick=\"show_delete(' + new_post_result.id + ') \" class=\" size-3 '+ 'start_delete' + new_post_result.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/trash.png' + '\" />';
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     html_new_posts_1 += '<div class=\"col-xs-5\" >';
+                     
+                     
+                     html_new_posts_1 += '<a class=\"delete-2 '+ 'show_delete' + new_post_result.id +'\" onclick=\"deleteoldpost(' + new_post_result.id + ') \">delete</a><a style=\"display: none; font-size: 13px;\" class=\"'+ 'show_delete' + new_post_result.id +'\" > //</a>';
+                     
+                     
+                      html_new_posts_1 += '<a onclick=\"hide_delete(' + new_post_result.id + ') \" class=\"delete-3 '+ 'show_delete' + new_post_result.id +'\">don\'t</a>';
+                     
+                         
+                   
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     
+                     
+                     
+                    html_new_posts_1 += '<div class=\"col-xs-2\" style=\" height: 25px;\">';
+                     
+                    
+                    html_new_posts_1 += '<img class=\" size-1 \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/checked.svg' + '\" />';
+                     
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                     
+                     html_new_posts_1 += '</div>';
+                     
+                     
+                                        
+                                        
+                                        
                 html_new_posts_1 += ' </div></div></div></div>';  
+                                        
+ 
+                                        
+                                        
+                                       
+                         
+                     }
+                     
+    
+                     
+                     
+                     
+
                      
                  }
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
                  
                  
                  
                 if (new_post_result.type == "chat" && new_post_result.owner != "<?php echo $user_info['id']; ?>") {
                     
                     
-                   html_new_posts_1 += '<div class=\"row\">';
+                   html_new_posts_1 += '<div class=\"row\" id=\"'+ 'old_post' + new_post_result.id +'\">';
                    html_new_posts_1 += '<div class=\"col-xs-10\">';
                    html_new_posts_1 += '<div class=\"talk-bubble1 tri-right1 left-top1\" class=\"chat-right-1\">';
                    html_new_posts_1 += '<div class=\"talktext1\">';
@@ -1353,7 +1643,7 @@ function displayFromDatabase() {
     
 function displayFromDatabasePagination() {
         
-    
+    completedPosts = false;
     
     fetch_old_url = "<?php echo $_SESSION['url_placeholder'];  ?>fetch_old_posts";
       
@@ -1372,6 +1662,30 @@ function displayFromDatabasePagination() {
               
           },
           success: function( data ) {
+              
+    
+              if (data == 100) {
+                  
+                  $(window).unbind("scroll");
+                  completedPosts = true;
+                  $('#loading').hide();
+                  $('#end').show();
+                 return; 
+              }
+              
+              
+                if (data == 200) {
+                  
+                  $(window).unbind("scroll");
+                  completedPosts = true;
+                  $('#loading').hide();
+                  $('#end').hide();
+                  $('#continue').show();
+                  $('#start').hide();
+                 return; 
+              }
+              
+              
               
             if (flag.readyState == 4 && flag.status == 200) { 
                                                               
@@ -1719,6 +2033,8 @@ function displayFromDatabasePagination() {
                     
             complete: function( ) {
                   
+                if (!completedPosts) {
+                    
                 $(window).bind("scroll", (function () {
                 
                   if ( ( window.innerHeight + window.scrollY ) >= document.body.offsetHeight ) {
@@ -1729,16 +2045,25 @@ function displayFromDatabasePagination() {
                       
                   }
                 
-            } ));            
+            } ));   }          
                 
           }
         
         
        } ); 
+       
+    if (!completedPosts) {
         
       $('#loading').show();
     
+    } 
     
+    
+    if (completedPosts) { 
+    
+    $('#loading').hide();
+        
+    }
 }
     
     
@@ -1835,7 +2160,17 @@ function displayFromDatabasePagination() {
            
           post_url_2 = "<?php  echo $_SESSION['url_placeholder'];  ?>" + "send_chat";   
            
-                   
+           
+          current = new Date();
+        
+          currentMilli = current.getTime();
+        
+          
+          
+           
+          currentArray.push(currentMilli);
+               
+           
           $.ajax( {
              url: post_url_2,
              type: "POST",
@@ -1843,7 +2178,8 @@ function displayFromDatabasePagination() {
              data: {
                 "done": 1,
                 "message": text,
-                 "group_id": page_group_id
+                 "group_id": page_group_id,
+                 "time": currentMilli
              },
              success: function( data ) {
                  
@@ -2088,6 +2424,16 @@ function hide_delete(post_ui) {
             
             
           insert_attach_url = "<?php  echo $_SESSION['url_placeholder'];  ?>" + "insert_attach";
+        
+        
+          current_attach = new Date();
+        
+          currentMilli_attach = current_attach.getTime();
+        
+          
+          
+           
+          currentArray.push(currentMilli_attach);
             
   
           $.ajax( {
@@ -2100,7 +2446,8 @@ function hide_delete(post_ui) {
                  "name": name,
                  "type": type,
                  "posttype": posttype,
-                 "group": page_group_id
+                 "group": page_group_id,
+                 "time": currentMilli_attach
              },
              success: function( data ) {
                  
@@ -2270,6 +2617,13 @@ html45  += "<img src=\"  " + img +"  \" style=\"width: 100%;\" ></div><div><br>"
     
     
     function sendAppend( e, attach ) {
+        
+        
+        if ( $("#text").val().length > 200 ) {
+            
+            return;
+            
+        }
         
         
         

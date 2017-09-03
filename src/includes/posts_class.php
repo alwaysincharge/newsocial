@@ -6,19 +6,21 @@ class Posts {
     
 
     
-       public function create_post_chat($message_input, $owner_input, $group_input) {
+       public function create_post_chat($message_input, $owner_input, $group_input, $time_input) {
 
        global $database;
         
-       $stmt = $database->connection->prepare("INSERT INTO posts (message, owner, group_id, deleted, type) VALUES (?, ?, ?, ?, ?)");
+       $stmt = $database->connection->prepare("INSERT INTO posts (message, owner, group_id, deleted, type, timeinput) VALUES (?, ?, ?, ?, ?, ?)");
         
-       $stmt->bind_param("siiss", $message, $owner, $group, $deleted, $type);
+       $stmt->bind_param("siissi", $message, $owner, $group, $deleted, $type, $time);
         
        $message = $message_input;
         
        $owner = $owner_input;
            
        $group = $group_input;
+           
+       $time = $time_input;
            
        $deleted = "live";   
            
@@ -33,17 +35,15 @@ class Posts {
 
 
     
-       public function get_new_chat($offset_input, $not_owner_input, $group_input) {
+       public function get_new_chat($offset_input, $group_input) {
 
        global $database;
         
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.id > ? AND posts.owner != ? AND posts.group_id = ? AND posts.owner != 0 AND posts.deleted = 'live' limit 20");
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, posts.timeinput as timeinput, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.id > ? AND posts.group_id = ? AND posts.owner != 0 AND posts.deleted = 'live' limit 20");
         
-       $stmt->bind_param("iii", $offset, $not_owner, $group);
+       $stmt->bind_param("ii", $offset, $group);
         
        $offset = $offset_input;
-        
-       $not_owner = $not_owner_input;
            
        $group = $group_input;
           
@@ -52,6 +52,30 @@ class Posts {
        return $stmt;    
 
        }
+    
+    
+    
+    
+    
+    
+       public function is_there_a_post_in_this_group($group_input) {
+
+       global $database;
+        
+       $stmt = $database->connection->prepare("SELECT id from posts where group_id = ? and owner != 0 and deleted = 'live' limit 1");
+        
+       $stmt->bind_param("i", $group);
+           
+       $group = $group_input;
+          
+       $stmt->execute();
+           
+       return $stmt;    
+
+       }
+    
+    
+    
     
     
     
@@ -85,7 +109,7 @@ class Posts {
 
        global $database;
         
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = 1 where   posts.group_id = ? AND posts.owner = 0 limit 20");
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, posts.timeinput as timeinput, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = 1 where   posts.group_id = ? AND posts.owner = 0 limit 20");
         
        $stmt->bind_param("i", $group);
            
@@ -126,7 +150,7 @@ class Posts {
 
        global $database;
         
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.group_id = ? order by id desc limit 1");
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, posts.timeinput as timeinput, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.group_id = ? order by id desc limit 1");
            
        $stmt->bind_param("i", $group);
           
@@ -190,13 +214,13 @@ class Posts {
     
     
     
-       public function insert_attach($path_input, $name_input, $type_input, $post_type_input, $group_input, $owner_id_input) {
+       public function insert_attach($path_input, $name_input, $type_input, $post_type_input, $group_input, $owner_id_input, $time_input) {
 
        global $database;
         
-       $stmt = $database->connection->prepare("INSERT INTO posts (attach_path, attach_name, attach_type, type, group_id, deleted, owner) VALUES ( ?, ?, ?, ?, ?, ?, ?)");
+       $stmt = $database->connection->prepare("INSERT INTO posts (attach_path, attach_name, attach_type, type, group_id, deleted, owner, timeinput) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
         
-       $stmt->bind_param("ssssisi", $path, $name, $type, $post_type, $group, $deleted, $owner_id);
+       $stmt->bind_param("ssssisis", $path, $name, $type, $post_type, $group, $deleted, $owner_id, $time);
         
        $path = $path_input;
            
@@ -207,6 +231,8 @@ class Posts {
        $post_type = $post_type_input;
            
        $group = $group_input;
+           
+       $time = $time_input;
            
        $deleted = "live";
            

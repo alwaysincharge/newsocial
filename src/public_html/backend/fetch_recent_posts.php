@@ -31,7 +31,7 @@ if(isset($_POST['fetchnew']))  {
         
     } else {
         
-        $new_chat = $posts->get_new_chat($offset, $_SESSION['admin_id'], $_POST['group']);
+        $new_chat = $posts->get_new_chat($offset, $_POST['group']);
         
     }
     

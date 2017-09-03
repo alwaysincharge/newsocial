@@ -10,7 +10,16 @@ if(request_is_post()) {
 if (isset($_POST['done'])) {
     
     
-    $posts->create_post_chat($_POST['message'], $_SESSION['admin_id'], $_POST['group_id']);
+        if  (strlen(trim($_POST['message'])) < 1)
+        
+        {
+            
+              exit();
+        
+        }
+    
+    
+    $posts->create_post_chat($_POST['message'], $_SESSION['admin_id'], $_POST['group_id'], $_POST['time']);
     
     $post_id = mysqli_insert_id($database->connection);
     

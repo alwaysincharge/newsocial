@@ -21,7 +21,7 @@ if(isset($_POST['insert_attach']))  {
 }
         
         
-    $posts->insert_attach($path, $name, $type, $posttype, $group, $_SESSION['admin_id']);   
+    $posts->insert_attach($path, $name, $type, $posttype, $group, $_SESSION['admin_id'], $_POST['time']);   
 
     $post_id_attach = mysqli_insert_id($database->connection);
     

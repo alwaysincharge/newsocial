@@ -77,7 +77,7 @@ $member->create_member($group_id, $_SESSION['admin_id'], "superadmin");
 
 $member_id = mysqli_insert_id($database->connection);
 
-$posts->create_post_chat("test", 0, $group_id);
+$posts->create_post_chat("test", 0, $group_id, time());
 
 
 
