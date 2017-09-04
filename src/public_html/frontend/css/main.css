@@ -1,3 +1,14 @@
+
+
+
+
+
+
+
+
+
+
+
 .login-body {
     
         
@@ -42,7 +53,7 @@ a:hover {
 }
 
 .size-2 {
-    height: 20px; width: 20px; margin-top: 5px; margin-left: -12px; margin-right: 10px; display: none;
+    height: 20px; width: 20px; margin-top: 5px; margin-left: -12px; margin-right: 10px; display: none; cursor: pointer;
 }
 
 .size-3 {

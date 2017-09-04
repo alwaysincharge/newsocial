@@ -39,7 +39,7 @@ class Posts {
 
        global $database;
         
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, posts.timeinput as timeinput, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.id > ? AND posts.group_id = ? AND posts.owner != 0 AND posts.deleted = 'live' limit 20");
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.group_id as group_id, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, posts.timeinput as timeinput, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.id > ? AND posts.group_id = ? AND posts.owner != 0 AND posts.deleted = 'live' limit 20");
         
        $stmt->bind_param("ii", $offset, $group);
         
@@ -86,7 +86,7 @@ class Posts {
 
        global $database;
         
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where 
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.group_id as group_id, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where 
        
        posts.message like ? AND posts.group_id = ? AND posts.owner != 0 AND posts.deleted = 'live' limit 20 ");
         
@@ -109,7 +109,7 @@ class Posts {
 
        global $database;
         
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, posts.timeinput as timeinput, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = 1 where   posts.group_id = ? AND posts.owner = 0 limit 20");
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.group_id as group_id, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, posts.timeinput as timeinput, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = 1 where   posts.group_id = ? AND posts.owner = 0 limit 20");
         
        $stmt->bind_param("i", $group);
            
@@ -130,7 +130,7 @@ class Posts {
 
        global $database;
         
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where  posts.group_id = ? AND deleted = 'live' order by posts.id desc limit 12");
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.group_id as group_id, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where  posts.group_id = ? AND deleted = 'live' order by posts.id desc limit 12");
            
        $stmt->bind_param("i", $group);
           
@@ -150,7 +150,7 @@ class Posts {
 
        global $database;
         
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, posts.timeinput as timeinput, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.group_id = ? order by id desc limit 1");
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.group_id as group_id, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, posts.timeinput as timeinput, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.group_id = ? order by id desc limit 1");
            
        $stmt->bind_param("i", $group);
           
@@ -173,7 +173,7 @@ class Posts {
 
        global $database;
         
-       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.id < ? AND posts.group_id = ? AND deleted = 'live' order by id desc limit 12");
+       $stmt = $database->connection->prepare("SELECT posts.id as id, posts.message as message, posts.owner as owner, posts.group_id as group_id, posts.type as type, posts.attach_path as path, posts.attach_name as name, posts.attach_type as file_type, users.username as username, users.img_path as image FROM posts INNER JOIN users ON users.id = posts.owner where posts.id < ? AND posts.group_id = ? AND deleted = 'live' order by id desc limit 12");
         
        $stmt->bind_param("ii", $offset, $group);
         

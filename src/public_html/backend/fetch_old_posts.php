@@ -63,6 +63,8 @@ if(isset($_POST['fetchold']))  {
       }
     
     
+  
+    
     
           
     
@@ -70,7 +72,35 @@ if(isset($_POST['fetchold']))  {
     
           while($r = $old_posts_result->fetch_assoc()) {
               
+              
+                  $already_like = $like->find_like($_SESSION['admin_id'], $r['id'], $r['group_id']);
+    
+                  $already_like_result = $already_like->get_result();
+    
+                  $num = $already_like_result->num_rows;
+    
+    
+    
+                  if ($num == 1)  {
+        
+        
+                      $r["like_src"] =  $_SESSION['url_placeholder'] . "frontend/html/pages/assets/like.svg";
+        
+        
+                  } elseif ($num == 0)  {
+        
+        
+                      $r["like_src"] =  $_SESSION['url_placeholder'] . "frontend/html/pages/assets/unlike.svg";
+        
+                  }
+              
+              
+              
+              
+             
+              
           $row[] = $r;
+              
               
           }
 

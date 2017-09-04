@@ -44,6 +44,8 @@ $user_info = $user_details_result->fetch_assoc();
     
     
     
+
+    
     
    <nav class="nav-head">
     
@@ -746,6 +748,12 @@ $all_members_of_this_group_result = $all_members_of_this_group->get_result();
 
 
 <script type="text/javascript">
+    
+
+ 
+    
+    
+    
 
 page_group_id = "<?php echo $_GET['group'];  ?>";
     
@@ -1156,7 +1164,7 @@ function displayFromDatabase() {
           success: function( data ) {
               
             
-              
+            
              var jsonData = JSON.parse( data );
              var jsonLength = jsonData.new_posts.length;
              var html_new_posts_1 = "";
@@ -1564,7 +1572,7 @@ function displayFromDatabase() {
                      
                      html_new_posts_1 += '<img class=\" size-2 '+ 'start_delete' + new_post_result.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
                      
-                    
+                    html_new_posts_1 += '';
                      
                      html_new_posts_1 += '</div>';
                      
@@ -1662,7 +1670,7 @@ function displayFromDatabasePagination() {
               
           },
           success: function( data ) {
-              
+              console.log(data);
     
               if (data == 100) {
                   
@@ -1895,7 +1903,7 @@ function displayFromDatabasePagination() {
                      
                     
                      
-                     oldPostHtml += '<img class=\" size-2 '+ 'start_delete' + resultOldPost.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
+                     oldPostHtml += '<img class=\" size-2 '+ 'start_delete' + resultOldPost.id + '   like_delete'  +  resultOldPost.id  +  '    \" src=\"' +  resultOldPost.like_src + '\" onclick=\"likeoldpost(' + resultOldPost.id + ') \" />';
                      
                      oldPostHtml += '<img onclick=\"show_delete(' + resultOldPost.id + ') \" class=\" size-3 '+ 'start_delete' + resultOldPost.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/trash.png' + '\" />';
                      
@@ -1964,12 +1972,16 @@ function displayFromDatabasePagination() {
                      oldPostHtml += '</div>';
                      
                      
-                     oldPostHtml += '<div class=\"col-xs-3\" style=\" height: 25px;\">';
+                     oldPostHtml += '<div class=\"col-xs-3\" style=\" height: 25px;\"> ';
+                    
+                    
+                   
                      
                     
                      
                      oldPostHtml += '<img class=\" size-2 '+ 'start_delete' + resultOldPost.id +' \" src=\"  ' +  '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg' + '\" />';
                      
+                    
                     
                      
                      oldPostHtml += '</div>';
@@ -2241,6 +2253,59 @@ function displayFromDatabasePagination() {
        
        
    } 
+    
+    
+  
+    
+       function likeoldpost(post_ui_id) {
+           
+           
+          if ( $('.like_delete' + post_ui_id).attr('src') == '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/unlike.svg' ) {
+              
+                   
+              
+                   $('.like_delete' + post_ui_id).attr('src', '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg');
+              
+               
+           } else if ($('.like_delete' + post_ui_id).attr('src') == '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/like.svg') {
+              
+              
+                   $('.like_delete' + post_ui_id).attr('src', '<?php echo $_SESSION['url_placeholder'];  ?>frontend/html/pages/assets/unlike.svg');
+               
+               
+           }
+           
+           
+           
+       like_old_url = "<?php  echo $_SESSION['url_placeholder'];  ?>" + "like_old";
+       
+       $.ajax( {
+             url: like_old_url,
+             type: "POST",
+             async: true,
+             data: {
+                "likepost": 1,
+                "post_id": post_ui_id,
+                 "group_id": page_group_id
+             },
+             success: function( data ) {
+          
+             },
+           
+             error: function( xhr, textStatus, errorThrown ) {
+             
+                 
+                 
+             }
+          } ); 
+           
+           
+           
+     } 
+    
+    
+    
+    
     
     
     

@@ -14,4 +14,6 @@
 
 <?php include_once('function.php'); ?>
 
+<?php include_once('like_class.php'); ?>
+
 <?php $_SESSION['url_placeholder'] = '/newsocial/src/public_html/' ?>
